@@ -6,7 +6,35 @@ class MasterPage extends Component {
         super(props);
 
         this.state = {
-            pagina: 'informacoes'
+            pagina: 'informacoes',
+
+            // States página Informacoes
+			nome: "",
+			dataNascimento: "",
+			remuneracaoInicial: "",
+			percentualContribuicao: "",
+			contribuicaoFacultativa: "",
+			nascimentoConjugue: "",
+			nascimentoFilhoInvalido: "",
+			nascimentoFilhoMaisNovo: "",
+			idadeAposentadoria: "",
+			percentualSaque: "",
+			taxaJuros: "1",
+
+			combos: {
+				teste: [
+					{
+						nome: "Opção 1",
+						valor: "1"
+					},
+					{
+						nome: "Opção 2",
+						valor: "2"
+					}
+				]
+			}
+
+            // States página Resultado
         };
 
         this.informacoes = React.createRef();
@@ -29,8 +57,8 @@ class MasterPage extends Component {
     renderConteudoPagina = () => {
         return (
             <div>
-                <Informacoes ref={this.informacoes} setPaginaAtiva={this.setPaginaAtiva} hidden={this.state.pagina !== 'informacoes'} />
-                <Resultado ref={this.resultado} setPaginaAtiva={this.setPaginaAtiva} hidden={this.state.pagina !== 'resultado'} />
+                <Informacoes ref={this.informacoes} state={this.state} setPaginaAtiva={this.setPaginaAtiva} hidden={this.state.pagina !== 'informacoes'} />
+                <Resultado ref={this.resultado} state={this.state} setPaginaAtiva={this.setPaginaAtiva} hidden={this.state.pagina !== 'resultado'} />
             </div>
         );
     }
@@ -41,8 +69,8 @@ class MasterPage extends Component {
                 <div align="center">
                     <img className="logo figure-img" src="imagens/logo.png" alt="" />
                     <h2>Bem vindo ao Simulador de Benefício do Plano CEBPREV</h2>
-
                 </div>
+                <br />
 
                 <div align="center">
                     {this.renderConteudoPagina()}

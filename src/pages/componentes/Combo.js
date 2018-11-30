@@ -11,10 +11,7 @@ export default class Combo extends Component {
 
 	static defaultProps = {
 		padrao: "",
-		opcoes: [],
-		textoVazio: "Selecione uma opção",
-		nomeMembro: "nome",
-		valorMembro: "valor"
+		incremento: 1
 	}
 
 	async componentDidMount() {
@@ -28,7 +25,6 @@ export default class Combo extends Component {
 
 	onChange = async (e) => {
         await handleFieldChange(this.props.contexto, e);
-        console.log(this.props.contexto.state);
 		
 		if(this.props.onChange) {
 			await this.props.onChange(e);
@@ -41,8 +37,17 @@ export default class Combo extends Component {
 		if(this.props.col)
             col = this.props.col;
 
+		var opcoes = [];
+		for(var i = this.props.min; i <= this.props.max; i = parseFloat((i + this.props.incremento).toFixed(2)))
+		{
+			if(this.props.decimais)
+				opcoes.push(i.toFixed(2));
+			else
+				opcoes.push(i);
+		}
+
         return (
-			<Row className="form-group row">
+			<Row className="form-group-sm row">
 
 				<Col className={col}>
                     <b><label htmlFor={this.props.nome}>
@@ -57,10 +62,10 @@ export default class Combo extends Component {
 						}
 
 						{
-							this.props.opcoes.map((opcao, index) => {
+							opcoes.map((opcao, index) => {
 								return (
-									<option key={index} value={opcao[this.props.valorMembro]}>{opcao[this.props.nomeMembro]}</option>
-								)
+									<option key={index} value={opcao}>{this.props.prefixo} {opcao} {this.props.sufixo}</option>
+								);
 							})
 						}
 						

@@ -5,32 +5,7 @@ class Informacoes extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {
-			nome: "",
-			dataNascimento: "",
-			remuneracaoInicial: "",
-			percentualContribuicao: "",
-			contribuicaoFacultativa: "",
-			nascimentoConjugue: "",
-			nascimentoFilhoInvalido: "",
-			nascimentoFilhoMaisNovo: "",
-			idadeAposentadoria: "",
-			percentualSaque: "",
-			taxaJuros: "1",
-
-			combos: {
-				teste: [
-					{
-						nome: "Opção 1",
-						valor: "1"
-					},
-					{
-						nome: "Opção 2",
-						valor: "2"
-					}
-				]
-			}
-		};
+		this.state = this.props.state;
 	}
 	
 	continuar = async () => { 
@@ -42,20 +17,21 @@ class Informacoes extends Component {
             <div hidden={this.props.hidden} >
                 <h4>Para começar, precisamos de algumas informações sobre você e sua contribuição para o plano CEBPREV!</h4>
 
-				<CampoTexto contexto={this} nome="nome" obrigatorio value={this.state.nome} tipo="text" label={"Digite seu nome"} />
+				<CampoTexto contexto={this} tipo="text" nome="nome" value={this.state.nome} label={"Digite seu nome"} 
+							max="50" obrigatorio />
 
-				<CampoTexto contexto={this} mascara={"99/99/9999"} nome="dataNascimento" obrigatorio value={this.state.dataNascimento} 
-						    tipo="text" label={"Digite sua data de nascimento"} />
+				<CampoTexto contexto={this} tipo="text" nome="dataNascimento" mascara={"+4\9 99 999 99"} value={this.state.dataNascimento} 
+						    label={"Digite sua data de nascimento"} obrigatorio />
 
-				<CampoTexto contexto={this} nome="remuneracaoInicial" obrigatorio value={this.state.remuneracaoInicial} tipo="text" 
-						    label={"Digite sua Remuneração Inicial"} />
+				<CampoTexto contexto={this} tipo="text" nome="remuneracaoInicial" value={this.state.remuneracaoInicial} 
+						    label={"Digite sua Remuneração Inicial"} obrigatorio />
 
-				<Combo contexto={this} label={"Escolha o percentual de contribuição entre 5% e 10% (a patrocinadora também contribuirá com o mesmo % para você!)"} 
-					   nome="percentualContribuicao" valor={this.state.percentualContribuicao} obrigatorio
-					   opcoes={this.state.combos.teste} />
+				<Combo contexto={this} nome="percentualContribuicao" valor={this.state.percentualContribuicao}
+					   label={"Escolha o percentual de contribuição entre 5% e 10% (a patrocinadora também contribuirá com o mesmo % para você!)"} 
+					   min={5} max={10} incremento={1} padrao={10} obrigatorio />
 
-				<CampoTexto contexto={this} label={"Deseja realizar contribuições facultativas? (Contribuição exclusiva do participante)"}
-							obrigatorio value={this.state.contribuicaoFacultativa} tipo="text" nome="contribuicaoFacultativa" />
+				<CampoTexto contexto={this} tipo="text" nome="contribuicaoFacultativa" value={this.state.contribuicaoFacultativa} 
+							label={"Deseja realizar contribuições facultativas? (Contribuição exclusiva do participante)"} obrigatorio mascara="99999-9999"/>
 				
 				<h4>Composição Familiar</h4>
 
@@ -72,15 +48,15 @@ class Informacoes extends Component {
 
 				<Combo contexto={this} label={"Com quantos anos você pretende se aposentar?"} 
 					   nome="idadeAposentadoria" valor={this.state.idadeAposentadoria} obrigatorio
-					   opcoes={this.state.combos.teste} />
+					   min={48} max={70} incremento={1} padrao={48} sufixo={"anos"} />
 
 				<Combo contexto={this} label={"Você deseja sacar à vista um percentual do seu saldo de contas na concessão do benefício?"} 
 					   nome="percentualSaque" valor={this.state.percentualSaque} obrigatorio
-					   opcoes={this.state.combos.teste} />
+					   min={1} max={25} incremento={1} textoVazio={"NÃO"} prefixo={"SIM - "} sufixo={"%"} />
 
 				<Combo contexto={this} label={"Taxa de juros para simulação"} 
 					   nome="taxaJuros" valor={this.state.taxaJuros} obrigatorio
-					   opcoes={this.state.combos.teste} />
+					   min={4} max={5.5} incremento={0.5} padrao={4} sufixo={"%"} />
 
 				<h4>Dados válidos somente para essa simulação!</h4>
 

@@ -12,23 +12,6 @@ export default class CampoTexto extends Component {
 		this.temErros = false;
 	}
 
-	validate = () => {
-		this.temErros = false;
-		this.erros = [];
-
-		if(this.props.obrigatorio)
-		{
-			if(this.props.valor === "")
-				this.erros.push(`Campo "${this.props.label}" obrigatório.`);
-		}
-
-		var valorSemMascara = this.props.valor.split("_").join("");
-		if(this.props.min && valorSemMascara.length < this.props.min)
-			this.erros.push(`Campo "${this.props.label}" inválido.`);
-
-		this.temErros = this.erros.length > 0;
-	}
-
     onChange = async (e) => {
 		await handleFieldChange(this.props.contexto, e, this.props.parent);
 		console.log(this.props.contexto.state);
