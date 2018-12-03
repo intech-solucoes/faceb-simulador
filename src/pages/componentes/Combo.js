@@ -4,9 +4,11 @@ import { Row, Col } from "../componentes";
 import { handleFieldChange } from "@intechprev/react-lib";
 
 export default class Combo extends Component {
-
 	constructor(props) {
 		super(props);
+
+		this.possuiErros = [];
+		this.erros = [];
 	}
 
 	static defaultProps = {
@@ -31,6 +33,19 @@ export default class Combo extends Component {
 		}
 	}
 
+	validar = () => {
+		this.possuiErros = false;
+		this.erros = [];
+
+		if(this.props.obrigatorio)
+		{
+			if(this.props.valor === "")
+				this.erros.push(`Campo "${this.props.label}" obrigatório.`);
+		}
+
+		this.possuiErros = this.erros.length > 0;
+	}
+
     render() {
 		var col = "col";
 
@@ -51,7 +66,7 @@ export default class Combo extends Component {
 
 				<Col className={col}>
                     <b><label htmlFor={this.props.nome}>
-                        {this.props.label} {this.props.obrigatorio && " *"}
+                        {this.props.label}
                     </label></b>
 
 					<select id={this.props.nome} name={this.props.nome} className="form-control" onChange={this.onChange} 
@@ -64,7 +79,7 @@ export default class Combo extends Component {
 						{
 							opcoes.map((opcao, index) => {
 								return (
-									<option key={index} value={opcao}>{this.props.prefixo} {opcao} {this.props.sufixo}</option>
+									<option key={index} value={opcao}>{this.props.prefixo}{opcao}{this.props.sufixo}</option>
 								);
 							})
 						}

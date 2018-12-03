@@ -20,19 +20,7 @@ class MasterPage extends Component {
 			idadeAposentadoria: "",
 			percentualSaque: "",
 			taxaJuros: "1",
-
-			combos: {
-				teste: [
-					{
-						nome: "Opção 1",
-						valor: "1"
-					},
-					{
-						nome: "Opção 2",
-						valor: "2"
-					}
-				]
-			}
+            erros: []
 
             // States página Resultado
         };
