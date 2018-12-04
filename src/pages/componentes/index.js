@@ -5,6 +5,7 @@ import Row from './Row';
 import Botao from './Botao';
 import CampoEstatico from './CampoEstatico';
 import CaixaInformativa from './CaixaInformativa';
+import CampoRenda from './CampoRenda';
 
 export {
     Combo,
@@ -13,5 +14,6 @@ export {
     Row,
     Botao,
     CampoEstatico,
-    CaixaInformativa
+    CaixaInformativa,
+    CampoRenda
 };

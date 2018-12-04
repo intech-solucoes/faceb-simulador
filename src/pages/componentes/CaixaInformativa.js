@@ -7,7 +7,7 @@ export default class CaixaInformativa extends Component {
         return (
             <div className="card">
                 <Row>
-                    <Col tamanho="2">
+                    <Col tamanho="1">
                         <h1 className="card-title">
                             <i className="fas fa-info-circle text-secondary" />
                         </h1>

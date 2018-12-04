@@ -21,9 +21,22 @@ class MasterPage extends Component {
 			idadeAposentadoria: "",
 			percentualSaque: "",
 			taxaJuros: "1",
-            erros: []
+            erros: [],
 
             // States página Resultado
+            rendaCurtoPrazo: [
+                "226,70",
+                "212,53",
+                "200,03",
+                "188,91",
+                "178,97",
+                "170,02",
+                "161,93",
+                "154,57",
+                "147,85",
+                "141,68",
+                "136,02"
+            ]
         };
 
         this.informacoes = React.createRef();
