@@ -29,7 +29,7 @@ export default class Botao extends Component {
 
         return (
             <button type={type} 
-                className={"btn btn-" + this.props.tipo + block + sm + " " + this.props.className} 
+                className={"btn btn-" + this.props.tipo + sm + " " + this.props.className} 
                 onClick={this.onClick} disabled={this.props.desativado || this.state.carregando}
             >
                 {!this.state.carregando && 

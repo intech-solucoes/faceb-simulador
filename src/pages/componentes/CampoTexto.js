@@ -35,7 +35,10 @@ export default class CampoTexto extends Component {
 	render() {
 		return (
             <div align="center">
-                <label htmlFor={this.props.nome}><b>{this.props.label}</b></label>
+                <label htmlFor={this.props.nome}>
+					<b>{this.props.label}</b>
+					<div className="text-secondary">{this.props.labelSecundaria}</div>
+				</label>
 				<InputMask mask={this.props.mascara} name={this.props.nome} value={this.props.valor} maxLength={this.props.max} className="form-control"
 							type={this.props.tipo} placeholder={this.props.placeholder} id={this.props.nome} disabled={this.props.desabilitado}
 							onChange={(e) => this.onChange(e)} maskChar={null} />

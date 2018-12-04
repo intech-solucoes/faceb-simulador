@@ -65,9 +65,10 @@ export default class Combo extends Component {
 			<Row className="form-group-sm row">
 
 				<Col className={col}>
-                    <b><label htmlFor={this.props.nome}>
-                        {this.props.label}
-                    </label></b>
+                    <label htmlFor={this.props.nome}>
+						<b>{this.props.label}</b>
+						<div className="text-secondary">{this.props.labelSecundaria}</div>
+                    </label>
 
 					<select id={this.props.nome} name={this.props.nome} className="form-control" onChange={this.onChange} 
 						    value={this.props.valor} disabled={this.props.desabilitado}>
