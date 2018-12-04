@@ -30,8 +30,6 @@ class Informacoes extends Component {
 
             if(campo.possuiErros)
 				await this.adicionarErro(campo.erros);
-			
-			
 		}
 		
 		if(this.erros.length === 0)
@@ -41,11 +39,11 @@ class Informacoes extends Component {
 	render() {
 		return (
             <div hidden={this.props.hidden} >
-				<h5>Para começar, precisamos de algumas informações sobre</h5>
-				<h5>você e sua contribuição para o plano CEBPREV!</h5>
-				<br />
 				<Row>
 					<Col className="col-5 center">
+						<h5>Para começar, precisamos de algumas informações sobre</h5>
+						<h5>você e sua contribuição para o plano CEBPREV!</h5>
+						<br />
 
 						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[0] = input } tipo="text" nome="nome" 
 									valor={this.state.nome} label={"Digite seu nome"} max="50" obrigatorio />
@@ -57,12 +55,12 @@ class Informacoes extends Component {
 									valor={this.state.remuneracaoInicial} label={"Digite sua Remuneração Inicial"} obrigatorio />
 
 						<Combo contexto={this} ref={ (input) => this.listaCampos[3] = input } nome="percentualContribuicao" valor={this.state.percentualContribuicao}
-							   label={"Escolha o percentual de contribuição entre 5% e 10% (a patrocinadora também contribuirá com o mesmo % para você!)"} 
+							   label={"Escolha o percentual de contribuição entre 5% e 10%"} labelSecundaria={"(a patrocinadora também contribuirá com o mesmo % para você!)"} 
 							   min={5} max={10} incremento={1} padrao={10} obrigatorio sufixo={"%"} />
 
 						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[4] = input } tipo="text" nome="contribuicaoFacultativa" 
 									valor={this.state.contribuicaoFacultativa} obrigatorio
-									label={"Deseja realizar contribuições facultativas? (Contribuição exclusiva do participante)"}  />
+									label={"Deseja realizar contribuições facultativas?"} labelSecundaria={"(Contribuição exclusiva do participante)"} />
 						
 						<h4>Composição Familiar</h4>
 
@@ -74,7 +72,8 @@ class Informacoes extends Component {
 
 						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[7] = input } nome="nascimentoFilhoMaisNovo" mascara={"99/99/9999"}
 									valor={this.state.nascimentoFilhoMaisNovo} tipo="text" label={"Data de nascimento do filho mais novo"} />														
-						
+						<br />
+
 						<h3>Estamos quase lá!</h3>
 
 						<Combo contexto={this} ref={ (input) => this.listaCampos[8] = input } label={"Com quantos anos você pretende se aposentar?"} 
@@ -96,11 +95,12 @@ class Informacoes extends Component {
 							</div>
 						}
 
-						<div className="text-primary">
-							Dados válidos somente para essa simulação!
-						</div>
+						<h6>Dados válidos somente para essa simulação!</h6>
 
-						<Botao titulo="Enviar" clicar={this.continuar} tipo={"primary"} block={true} usaLoading={true} />
+						<Botao titulo={"Continuar  "} clicar={this.continuar} tipo={"primary"} block={true} usaLoading={true}>
+							<i className="fas fa-angle-right" />
+							<i className="fas fa-angle-right" />
+						</Botao>
 					</Col>
 				</Row>
             </div>

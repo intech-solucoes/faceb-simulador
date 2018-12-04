@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Informacoes, Resultado } from './';
+import { Row, Col } from './componentes';
 
 class MasterPage extends Component {
     constructor(props) { 
@@ -56,7 +57,8 @@ class MasterPage extends Component {
             <div className="container">
                 <div align="center">
                     <img className="logo figure-img" src="imagens/logo.png" alt="" />
-                    <h2>Bem vindo ao Simulador de Benefício do Plano CEBPREV</h2>
+                    <h2>Bem vindo ao</h2>
+                    <h2>Simulador de Benefício do Plano CEBPREV</h2>
                 </div>
                 <br />
 
