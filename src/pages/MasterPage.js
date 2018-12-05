@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Informacoes, Resultado } from './';
-import { Row, Col } from './componentes';
 
 class MasterPage extends Component {
     constructor(props) { 

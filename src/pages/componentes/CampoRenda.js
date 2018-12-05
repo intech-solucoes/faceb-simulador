@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 
 export default class CampoRenda extends Component { 
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         var format = "form-group";

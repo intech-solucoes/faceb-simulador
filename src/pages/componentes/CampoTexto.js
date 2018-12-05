@@ -19,6 +19,13 @@ export default class CampoTexto extends Component {
             this.props.onChange();
     }
 
+	onBlur = async (e) => {
+		await handleFieldChange(this.props.contexto, e, this.props.parent);
+
+		if(this.props.onBlur)
+			this.props.onBlur();
+	}
+
 	validar = () => {
 		this.possuiErros = false;
 		this.erros = [];
@@ -39,9 +46,9 @@ export default class CampoTexto extends Component {
 					<b>{this.props.label}</b>
 					<div className="text-secondary">{this.props.labelSecundaria}</div>
 				</label>
-				<InputMask mask={this.props.mascara} name={this.props.nome} value={this.props.valor} maxLength={this.props.max} className="form-control"
-							type={this.props.tipo} placeholder={this.props.placeholder} id={this.props.nome} disabled={this.props.desabilitado}
-							onChange={(e) => this.onChange(e)} maskChar={null} />
+				<InputMask mask={this.props.mascara} name={this.props.nome} value={this.props.valor} maxLength={this.props.max} className={"form-control " + this.props.className}
+						   type={this.props.tipo} placeholder={this.props.placeholder} id={this.props.nome} disabled={this.props.desabilitado}
+						   onChange={(e) => this.onChange(e)} maskChar={null} onBlur={(e) => this.onBlur(e)} />
             </div>
 		);
 	}

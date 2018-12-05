@@ -22,6 +22,9 @@ class Informacoes extends Component {
     }
 
 	continuar = async () => { 
+		if(this.state.percentualSaque === '')
+			await this.setState({ percentualSaque: 0 });
+
 		await this.limparErros();
         for(var i = 0; i < this.listaCampos.length; i++) {
 			var campo = this.listaCampos[i];
@@ -34,6 +37,10 @@ class Informacoes extends Component {
 		
 		if(this.erros.length === 0)
 			this.props.setPaginaAtiva("resultado", this.state);
+	}
+
+	onBlurCampoMonetario = async () => { 
+		console.log("");
 	}
 
 	render() {
@@ -51,15 +58,15 @@ class Informacoes extends Component {
 						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[1] = input } tipo="text" nome="dataNascimento" 
 									valor={this.state.dataNascimento} label={"Digite sua data de nascimento"} mascara={"99/99/9999"} obrigatorio />
 
-						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[2] = input } tipo="text" nome="remuneracaoInicial" 
-									valor={this.state.remuneracaoInicial} label={"Digite sua Remuneração Inicial"} obrigatorio />
+						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[2] = input } tipo="text" nome="remuneracaoInicial" className="money"
+									valor={this.state.remuneracaoInicial} label={"Digite sua Remuneração Inicial"} max={10} obrigatorio onBlur={this.onBlurCampoMonetario} />
 
 						<Combo contexto={this} ref={ (input) => this.listaCampos[3] = input } nome="percentualContribuicao" valor={this.state.percentualContribuicao}
 							   label={"Escolha o percentual de contribuição entre 5% e 10%"} labelSecundaria={"(a patrocinadora também contribuirá com o mesmo % para você!)"} 
 							   min={5} max={10} incremento={1} padrao={10} obrigatorio sufixo={"%"} />
 
 						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[4] = input } tipo="text" nome="contribuicaoFacultativa" 
-									valor={this.state.contribuicaoFacultativa} obrigatorio
+									valor={this.state.contribuicaoFacultativa} obrigatorio className="money" max={10} onBlur={this.onBlurCampoMonetario}
 									label={"Deseja realizar contribuições facultativas?"} labelSecundaria={"(Contribuição exclusiva do participante)"} />
 						
 						<h4>Composição Familiar</h4>

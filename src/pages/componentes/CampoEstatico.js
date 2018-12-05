@@ -7,11 +7,7 @@ function col(valor) {
         return "col";
 }
 
-export default class CampoEstatico extends Component { 
-    constructor(props) {
-        super(props);
-    }
-
+export default class CampoEstatico extends Component {
     render() {
         var format = "form-group";
         if(this.props.formatoComponente)

@@ -79,6 +79,8 @@ export default class Combo extends Component {
 
 						{
 							opcoes.map((opcao, index) => {
+								opcao = opcao.toString();
+								opcao = opcao.replace('.', ',');
 								return (
 									<option key={index} value={opcao}>{this.props.prefixo}{opcao}{this.props.sufixo}</option>
 								);

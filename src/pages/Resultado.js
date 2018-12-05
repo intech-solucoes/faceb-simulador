@@ -7,11 +7,15 @@ class Resultado extends Component {
 		super(props);
 
 		this.state = this.props.state;
-		this.anos = 14;
+		this.anos = 0;
+	}
+
+	componentDidMount = () => { 
+		console.log(this.anos);
 	}
 
 	aderir = async () => { 
-		console.log("")
+		console.log("Redirecionando para Faceb...");
 	}
 
 	render() {
