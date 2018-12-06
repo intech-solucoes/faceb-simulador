@@ -47,7 +47,7 @@ class Informacoes extends Component {
 		return (
             <div hidden={this.props.hidden} >
 				<Row>
-					<Col className="col-5 center">
+					<Col className="col-12 center">
 						<h5>Para começar, precisamos de algumas informações sobre</h5>
 						<h5>você e sua contribuição para o plano CEBPREV!</h5>
 						<br />
@@ -96,11 +96,13 @@ class Informacoes extends Component {
 							   nome="taxaJuros" valor={this.state.taxaJuros} obrigatorio
 							   min={4} max={5.5} incremento={0.5} padrao={4} sufixo={"%"} decimais />
 
-						{this.erros.length > 0 &&
-							<div className="alert alert-danger" role="alert" 
-								dangerouslySetInnerHTML={{__html: this.state.erros.join("<br/>") }}>
-							</div>
-						}
+						<div className="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+							{this.erros.length > 0 &&
+								<div className="alert alert-danger" role="alert" 
+									dangerouslySetInnerHTML={{__html: this.state.erros.join("<br/>") }}>
+								</div>
+							}
+						</div>
 
 						<h6>Dados válidos somente para essa simulação!</h6>
 

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Row, Col } from "../componentes";
 
 import { handleFieldChange } from "@intechprev/react-lib";
 
@@ -62,34 +61,31 @@ export default class Combo extends Component {
 		}
 
         return (
-			<Row className="form-group-sm row">
+			<div className={"col-lg-5 col-md-5 col-xs-12 col-sm-12"}>
+				<label htmlFor={this.props.nome}>
+					<b>{this.props.label}</b>
+					<div className="text-secondary">{this.props.labelSecundaria}</div>
+				</label>
 
-				<Col className={col}>
-                    <label htmlFor={this.props.nome}>
-						<b>{this.props.label}</b>
-						<div className="text-secondary">{this.props.labelSecundaria}</div>
-                    </label>
+				<select id={this.props.nome} name={this.props.nome} className="form-control" onChange={this.onChange} 
+						value={this.props.valor} disabled={this.props.desabilitado}>
 
-					<select id={this.props.nome} name={this.props.nome} className="form-control" onChange={this.onChange} 
-						    value={this.props.valor} disabled={this.props.desabilitado}>
+					{this.props.textoVazio &&
+						<option value="">{this.props.textoVazio}</option>
+					}
 
-						{this.props.textoVazio &&
-							<option value="">{this.props.textoVazio}</option>
-						}
-
-						{
-							opcoes.map((opcao, index) => {
-								opcao = opcao.toString();
-								opcao = opcao.replace('.', ',');
-								return (
-									<option key={index} value={opcao}>{this.props.prefixo}{opcao}{this.props.sufixo}</option>
-								);
-							})
-						}
-						
-                    </select>
-				</Col>
-			</Row>
+					{
+						opcoes.map((opcao, index) => {
+							opcao = opcao.toString();
+							opcao = opcao.replace('.', ',');
+							return (
+								<option key={index} value={opcao}>{this.props.prefixo}{opcao}{this.props.sufixo}</option>
+							);
+						})
+					}
+					
+				</select>
+			</div>
         )
     }
 

@@ -41,7 +41,7 @@ export default class CampoTexto extends Component {
 
 	render() {
 		return (
-            <div align="center">
+            <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12" align="center">
                 <label htmlFor={this.props.nome}>
 					<b>{this.props.label}</b>
 					<div className="text-secondary">{this.props.labelSecundaria}</div>
