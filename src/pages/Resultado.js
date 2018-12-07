@@ -11,7 +11,6 @@ class Resultado extends Component {
 	}
 
 	componentDidMount = () => { 
-		console.log(this.anos);
 	}
 
 	aderir = async () => { 
@@ -22,7 +21,7 @@ class Resultado extends Component {
 		return (
             <div hidden={this.props.hidden}>
 				<Row>
-					<Col className={"col-8 center"}>
+					<Col className={"col-lg-8 col-md-8 col-sm-12 col-xs-12 center"}>
 						<h3><b>Resultado da simulação</b></h3>
 						<CampoEstatico titulo="Data da Aposentadoria" valor={"17/08/2050"} />
 
@@ -57,7 +56,7 @@ class Resultado extends Component {
 								</div>
 							</Col>
 						</Row>
-
+						
 						<Row>
 							<Col>
 								<div align="left">
@@ -87,7 +86,8 @@ class Resultado extends Component {
 								<br />
 							</Col>
 						</Row>
-
+						<br />
+						
 						<Row>
 							<Col tamanho={"5"}>
 								<div align="left">

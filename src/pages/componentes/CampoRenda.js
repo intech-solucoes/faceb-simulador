@@ -10,16 +10,16 @@ export default class CampoRenda extends Component {
         return (
             <div className="input-group">
                 {this.props.posicaoValor === 'esquerda' &&
-                    <h4 className="form-group">{this.props.valor}</h4>
+                    <h4 className="result-top">{this.props.valor}</h4>
                 }
 
                 {this.props.labelNegrito ? 
                     <label><b>{this.props.label}</b></label> : 
-                    <label>{this.props.label}</label> 
+                    <label className="label-result">{this.props.label}</label> 
                 }
 
                 {this.props.posicaoValor === 'direita' &&
-                    <h4>{this.props.valor}</h4>
+                    <h4 className="result-bottom">{this.props.valor}</h4>
                 }
             </div>
         );
