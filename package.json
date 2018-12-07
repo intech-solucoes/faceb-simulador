@@ -2,6 +2,7 @@
   "name": "faceb-simulador",
   "version": "0.0.1",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@babel/core": "7.1.0",
     "@intechprev/prevsystem-service": "^0.0.10",

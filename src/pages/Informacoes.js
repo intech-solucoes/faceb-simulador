@@ -36,6 +36,15 @@ class Informacoes extends Component {
 				await this.adicionarErro(campo.erros);
 		}
 		
+		if(this.state.nascimentoConjugue.length <= 0)
+			await this.setState({ erroNascimentoConjugue: false });	
+
+		if(this.state.nascimentoFilhoInvalido.length <= 0)
+			await this.setState({ erroNascimentoFilhoInvalido: false });	
+
+		if(this.state.nascimentoFilhoMaisNovo.length <= 0)
+			await this.setState({ erroNascimentoFilhoMaisNovo: false });	
+
 		var errosData = this.state.erroDataNascimento || this.state.erroNascimentoConjugue || this.state.erroNascimentoFilhoInvalido 
 					|| this.state.erroNascimentoFilhoMaisNovo;
 
