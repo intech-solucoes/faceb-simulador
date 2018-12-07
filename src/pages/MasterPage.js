@@ -19,8 +19,14 @@ class MasterPage extends Component {
 			nascimentoFilhoMaisNovo: "",
 			idadeAposentadoria: "",
 			percentualSaque: "",
-			taxaJuros: "1",
+            taxaJuros: "1",
+            
+            // States de erros
             erros: [],
+            erroDataNascimento: false,
+            erroNascimentoConjugue: false,
+            erroNascimentoFilhoInvalido: false,
+            erroNascimentoFilhoMaisNovo: false,
 
             // States página Resultado
             rendaCurtoPrazo: [

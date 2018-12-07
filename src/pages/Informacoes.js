@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { CampoTexto, Combo, Row, Col, Botao } from './componentes';
+import DataInvalida from './utils/Data';
 
 class Informacoes extends Component {
 	constructor(props) {
@@ -35,12 +36,26 @@ class Informacoes extends Component {
 				await this.adicionarErro(campo.erros);
 		}
 		
-		if(this.erros.length === 0)
+		var errosData = this.state.erroDataNascimento || this.state.erroNascimentoConjugue || this.state.erroNascimentoFilhoInvalido 
+					|| this.state.erroNascimentoFilhoMaisNovo;
+
+		if(this.erros.length === 0 && !errosData)
 			this.props.setPaginaAtiva("resultado", this.state);
 	}
 
 	onBlurCampoMonetario = async () => { 
 		console.log("");
+	}
+
+	validarData = async (campoErro, valor) => {
+		var dataPartes = valor.split("/");
+		var dataObjeto = new Date(dataPartes[2], dataPartes[1] - 1, dataPartes[0]);
+		
+		var dataInvalida = DataInvalida(dataObjeto, valor);
+		
+		await this.setState({
+			[campoErro]: dataInvalida
+		})
 	}
 
 	render() {
@@ -55,8 +70,9 @@ class Informacoes extends Component {
 						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[0] = input } tipo="text" nome="nome" 
 									valor={this.state.nome} label={"Digite seu nome"} max="50" obrigatorio />
 
-						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[1] = input } tipo="text" nome="dataNascimento" 
-									valor={this.state.dataNascimento} label={"Digite sua data de nascimento"} mascara={"99/99/9999"} obrigatorio />
+						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[1] = input } tipo="data" nome="dataNascimento" 
+									valor={this.state.dataNascimento} label={"Digite sua data de nascimento"} mascara={"99/99/9999"} obrigatorio 
+									onBlur={() => this.validarData('erroDataNascimento', this.state.dataNascimento)} erro={this.state.erroDataNascimento} />
 
 						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[2] = input } tipo="text" nome="remuneracaoInicial" className="money"
 									valor={this.state.remuneracaoInicial} label={"Digite sua Remuneração Inicial"} max={10} obrigatorio onBlur={this.onBlurCampoMonetario} />
@@ -68,17 +84,21 @@ class Informacoes extends Component {
 						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[4] = input } tipo="text" nome="contribuicaoFacultativa" 
 									valor={this.state.contribuicaoFacultativa} obrigatorio className="money" max={10} onBlur={this.onBlurCampoMonetario}
 									label={"Deseja realizar contribuições facultativas?"} labelSecundaria={"(Contribuição exclusiva do participante)"} />
-						
+						<br />
+
 						<h4>Composição Familiar</h4>
 
 						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[5] = input } nome="nascimentoConjugue" mascara={"99/99/9999"}
-									valor={this.state.nascimentoConjugue} tipo="text" label={"Data de nascimento do cônjugue ou companheiro"} />
+									valor={this.state.nascimentoConjugue} tipo="data" label={"Data de nascimento do cônjugue ou companheiro"} 
+									onBlur={() => this.validarData('erroNascimentoConjugue', this.state.nascimentoConjugue)} erro={this.state.erroNascimentoConjugue} />
 									
 						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[6] = input } nome="nascimentoFilhoInvalido" mascara={"99/99/9999"}
-									valor={this.state.nascimentoFilhoInvalido} tipo="text" label={"Possui filho inválido? Data de nascimento"} />
+									valor={this.state.nascimentoFilhoInvalido} tipo="data" label={"Possui filho inválido? Data de nascimento"} 
+									onBlur={() => this.validarData('erroNascimentoFilhoInvalido', this.state.nascimentoFilhoInvalido)} erro={this.state.erroNascimentoFilhoInvalido} />
 
 						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[7] = input } nome="nascimentoFilhoMaisNovo" mascara={"99/99/9999"}
-									valor={this.state.nascimentoFilhoMaisNovo} tipo="text" label={"Data de nascimento do filho mais novo"} />														
+									valor={this.state.nascimentoFilhoMaisNovo} tipo="data" label={"Data de nascimento do filho mais novo"} 
+									onBlur={() => this.validarData('erroNascimentoFilhoMaisNovo', this.state.nascimentoFilhoMaisNovo)} erro={this.state.erroNascimentoFilhoMaisNovo} />														
 						<br />
 
 						<h3>Estamos quase lá!</h3>
@@ -103,8 +123,10 @@ class Informacoes extends Component {
 								</div>
 							}
 						</div>
+						<br />
 
 						<h6>Dados válidos somente para essa simulação!</h6>
+						<br />
 
 						<Botao titulo={"Continuar  "} clicar={this.continuar} tipo={"primary"} block={true} usaLoading={true}>
 							<i className="fas fa-angle-right" />
