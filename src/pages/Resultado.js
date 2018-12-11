@@ -7,7 +7,6 @@ class Resultado extends Component {
 		super(props);
 
 		this.state = this.props.state;
-		this.anos = 0;
 	}
 
 	componentDidMount = () => { 
@@ -31,7 +30,7 @@ class Resultado extends Component {
 
 						<h3>Opções de Recebimento da sua Aposentadoria</h3>
 						<br />
-						
+
 						<Row>
 							<Col tamanho={"5"}>
 								<div align="left">
@@ -72,10 +71,11 @@ class Resultado extends Component {
 						<Row>
 							<Col>
 								{
-									this.state.rendaCurtoPrazo.map((index) => { 
-										this.anos++;
+									this.state.rendaCurtoPrazo.map((index, i) => { 
+										i += 14;
+										i++;
 										return (
-											<CampoRenda key={index} valor={`R$ ${index}`} label={`em ${this.anos} anos`} posicaoValor={"esquerda"} />
+											<CampoRenda key={index} valor={`R$ ${index}`} label={`em ${i} anos`} posicaoValor={"esquerda"} />
 										);
 									})
 								}

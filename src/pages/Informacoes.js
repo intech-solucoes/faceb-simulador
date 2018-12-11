@@ -134,7 +134,9 @@ class Informacoes extends Component {
 						</div>
 						<br />
 
-						<h6>Dados válidos somente para essa simulação!</h6>
+						<div className="text-secondary">
+							<h6>Dados válidos somente para essa simulação!</h6>
+						</div>
 						<br />
 
 						<Botao titulo={"Continuar  "} clicar={this.continuar} tipo={"primary"} block={true} usaLoading={true}>
