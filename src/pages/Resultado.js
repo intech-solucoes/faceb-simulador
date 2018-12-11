@@ -56,7 +56,8 @@ class Resultado extends Component {
 								</div>
 							</Col>
 						</Row>
-						
+						<br />
+
 						<Row>
 							<Col>
 								<div align="left">
@@ -114,7 +115,8 @@ class Resultado extends Component {
 						</Row>
 						<br />
 
-						<Botao titulo="Clique aqui para fazer sua Adesão!" clicar={this.aderir} tipo={"primary"} block={true} usaLoading={true} />
+						<Botao titulo="Voltar" clicar={() => this.props.setPaginaAtiva('informacoes', this.state)} tipo={"secondary"} usaLoading={true} />&nbsp;
+						<Botao titulo="Clique aqui para fazer sua Adesão!" clicar={this.aderir} tipo={"primary"} usaLoading={true} />
 					</Col>
 				</Row>
             </div>
