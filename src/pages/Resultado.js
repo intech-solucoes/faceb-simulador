@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Botao, Row, Col, CampoEstatico, CaixaInformativa, CampoRenda } from './componentes';
+import { Botao, Row, Col, CampoEstatico, BotaoInfo } from './componentes';
 
 class Resultado extends Component {
 	constructor(props) { 
@@ -35,6 +35,7 @@ class Resultado extends Component {
 							<Col tamanho={"5"}>
 								<div align="left">
 									<h5><b>Renda por prazo indeterminado</b></h5>
+									<BotaoInfo textoModal={"Calculada atuarialmente em função da expectativa de vida do participante e beneficiários, com ou sem reversão para pensão por morte. Benefício recalculado anualmente."} />
 								</div>
 							</Col>
 							<Col>
@@ -45,15 +46,15 @@ class Resultado extends Component {
 						<Row>
 							<Col>
 								<div align="middle">
-									<CampoRenda valor={"R$ 197,51"} label={"Com Reversão em Pensão"} posicaoValor={"direita"} />
-									<CampoRenda valor={"R$ 198,04"} label={"Sem Reversão em Pensão"} posicaoValor={"direita"} />
+									{/* <CampoRenda valor={"R$ 197,51"} label={"Com Reversão em Pensão"} posicaoValor={"direita"} />
+									<CampoRenda valor={"R$ 198,04"} label={"Sem Reversão em Pensão"} posicaoValor={"direita"} /> */}
 								</div>
 							</Col>
-							<Col tamanho="7">
+							{/* <Col tamanho="7">
 								<div align="right">
-									<CaixaInformativa texto={"Calculada atuarialmente em função da expectativa de vida do participante e beneficiários, com ou sem reversão para pensão por morte. Benefício recalculado anualmente."} />
+									
 								</div>
-							</Col>
+							</Col> */}
 						</Row>
 						<br />
 
@@ -70,7 +71,7 @@ class Resultado extends Component {
 
 						<Row>
 							<Col>
-								{
+								{/* { 
 									this.state.rendaCurtoPrazo.map((index, i) => { 
 										i += 14;
 										i++;
@@ -78,14 +79,14 @@ class Resultado extends Component {
 											<CampoRenda key={index} valor={`R$ ${index}`} label={`em ${i} anos`} posicaoValor={"esquerda"} />
 										);
 									})
-								}
+								} */}
 							</Col>
-							<Col tamanho="7">
+							{/* <Col tamanho="7">
 								<div align="right">
-									<CaixaInformativa texto={"Renda por Prazo Certo: recebimento entre 15 e 20 anos, cujo benefício será mantido em quantitativo de cotas e valorizado pela cota do mês anterior ao pagamento."} />
+									
 								</div>
 								<br />
-							</Col>
+							</Col> */}
 						</Row>
 						<br />
 						
@@ -101,17 +102,17 @@ class Resultado extends Component {
 						</Row>
 
 						<Row>
-							<Col>
+							{/* <Col>
 								<CampoRenda valor={"R$ 221,51"} label={"0,5%"} posicaoValor={"esquerda"} />
 								<CampoRenda valor={"R$ 442,53"} label={"1,0%"} posicaoValor={"esquerda"} />
 								<CampoRenda valor={"R$ 663,09"} label={"1,5%"} posicaoValor={"esquerda"} />
 								<CampoRenda valor={"R$ 884,11"} label={"2,0%"} posicaoValor={"esquerda"} />
-							</Col>
-							<Col tamanho="7">
+							</Col> */}
+							{/* <Col tamanho="7">
 								<div align="right">
-									<CaixaInformativa texto={"Renda por Percentual do Saldo: aplicação de percentual entre 0,5% a 2,0% sobre o saldo da Conta Assistido, cujo benefício será mantido em quantitativo de cotas e valorizado pela cota do mês anterior ao pagamento."} />
+									
 								</div>
-							</Col>
+							</Col> */}
 						</Row>
 						<br />
 
@@ -125,3 +126,13 @@ class Resultado extends Component {
 }
 
 export default Resultado;
+
+
+// texto 1: Calculada atuarialmente em função da expectativa de vida do participante e 
+// beneficiários, com ou sem reversão para pensão por morte. Benefício recalculado anualmente.
+
+// texto 2: Renda por Prazo Certo: recebimento entre 15 e 20 anos, cujo benefício será mantido em 
+// quantitativo de cotas e valorizado pela cota do mês anterior ao pagamento.
+
+// texto 3: Renda por Percentual do Saldo: aplicação de percentual entre 0,5% a 2,0% sobre o saldo da Conta Assistido,
+// cujo benefício será mantido em quantitativo de cotas e valorizado pela cota do mês anterior ao pagamento.
