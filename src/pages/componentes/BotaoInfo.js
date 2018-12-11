@@ -55,8 +55,8 @@ export default class BotaoAjuda extends React.Component {
     render() {
         return (
             <div className="col-1">
-                <button type="button" className="btn btn-outline-dark rounded-circle bg-dark text-white" onClick={() => this.toggleModal()}>
-                    <i className="fa fa-question"></i>
+                <button type="button" className="btn rounded-circle btn-informacao text-white" onClick={() => this.toggleModal()}>
+                    <i className="fas fa-info"></i>
                 </button>
 
                 {this.renderModal()}
