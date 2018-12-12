@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Botao, Row, Col, CampoEstatico, BotaoInfo } from './componentes';
+import { Botao, Row, Col, CampoEstatico, TituloResultado } from './componentes';
 
 class Resultado extends Component {
 	constructor(props) { 
@@ -31,21 +31,28 @@ class Resultado extends Component {
 						<h3>Opções de Recebimento da sua Aposentadoria</h3>
 						<br />
 
-						<Row>
-							<Col tamanho={"5"}>
-								<div align="left">
-									<h5><b>Renda por prazo indeterminado</b></h5>
-									<BotaoInfo textoModal={"Calculada atuarialmente em função da expectativa de vida do participante e beneficiários, com ou sem reversão para pensão por morte. Benefício recalculado anualmente."} />
-								</div>
-							</Col>
-							<Col>
-								<hr />
-							</Col>
-						</Row>
+						<TituloResultado titulo={"Renda por Prazo Curto"} usaBotaoInfo 
+										 textoModal={"Calculada atuarialmente em função da expectativa de vida do participante e beneficiários, com ou sem reversão para pensão por morte. Benefício recalculado anualmente."} />
 
 						<Row>
 							<Col>
 								<div align="middle">
+									<div className="table-responsive">
+										<div className="table table-result">
+											<thead>
+												<tr>
+													<th>Com Reversão em Pensão</th>
+													<th>Sem Reversão em Pensão</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td><h4>R$ 197,51</h4></td>
+													<td><h4>R$ 198,04</h4></td>
+												</tr>
+											</tbody>
+										</div>
+									</div>
 									{/* <CampoRenda valor={"R$ 197,51"} label={"Com Reversão em Pensão"} posicaoValor={"direita"} />
 									<CampoRenda valor={"R$ 198,04"} label={"Sem Reversão em Pensão"} posicaoValor={"direita"} /> */}
 								</div>
@@ -58,65 +65,73 @@ class Resultado extends Component {
 						</Row>
 						<br />
 
-						<Row>
-							<Col>
-								<div align="left">
-									<h5><b>Renda por Prazo Certo</b></h5>
-								</div>
-							</Col>
-							<Col tamanho={"8"}>
-								<hr />
-							</Col>
-						</Row>
+						<TituloResultado titulo={"Renda por Prazo Certo"} usaBotaoInfo 
+										 textoModal={"Renda por Prazo Certo: recebimento entre 15 e 25 anos, cujo benefício será mantido em quantitativo de cotas e valorizado pela cota do mês anterior ao pagamento."} />
 
 						<Row>
 							<Col>
-								{/* { 
-									this.state.rendaCurtoPrazo.map((index, i) => { 
-										i += 14;
-										i++;
-										return (
-											<CampoRenda key={index} valor={`R$ ${index}`} label={`em ${i} anos`} posicaoValor={"esquerda"} />
-										);
-									})
-								} */}
-							</Col>
-							{/* <Col tamanho="7">
-								<div align="right">
-									
+								<div className="table-responsive">
+									<div className="table">
+										<thead />
+										<tbody>
+											<tr>
+												<td><h4>R$ 226,70 </h4>em 15 anos</td>
+												<td><h4>R$ 212,53 </h4>em 16 anos</td>
+												<td><h4>R$ 200,03 </h4>em 17 anos</td>
+												<td className="hidden-xs-down"><h4>R$ 188,91 </h4>em 18 anos</td>
+												<td><h4>R$ 178,97 </h4>em 19 anos</td>
+												<td><h4>R$ 170,02 </h4>em 20 anos</td>
+											</tr>
+											<tr>
+												<td><h4>R$ 161,93 </h4>em 21 anos</td>
+												<td><h4>R$ 154,57 </h4>em 22 anos</td>
+												<td><h4>R$ 147,85 </h4>em 23 anos</td>
+												<td><h4>R$ 141,68 </h4>em 24 anos</td>
+												<td><h4>R$ 136,02 </h4>em 25 anos</td>
+											</tr>
+										</tbody>
+									</div>
 								</div>
-								<br />
-							</Col> */}
+							</Col>
 						</Row>
 						<br />
 						
-						<Row>
-							<Col tamanho={"5"}>
-								<div align="left">
-									<h5><b>Renda por percentual do saldo de contas</b></h5>
-								</div>
-							</Col>
-							<Col>
-								<hr />
-							</Col>
-						</Row>
+						<TituloResultado titulo={"Renda por percentual do saldo de contas"} usaBotaoInfo 
+										 textoModal={"Renda por Percentual do Saldo: aplicação de percentual entre 0,5% a 2,0% sobre o saldo da Conta Assistido, cujo benefício será mantido em quantitativo de cotas e valorizado pela cota do mês anterior ao pagamento."} />
 
-						<Row>
-							{/* <Col>
-								<CampoRenda valor={"R$ 221,51"} label={"0,5%"} posicaoValor={"esquerda"} />
-								<CampoRenda valor={"R$ 442,53"} label={"1,0%"} posicaoValor={"esquerda"} />
-								<CampoRenda valor={"R$ 663,09"} label={"1,5%"} posicaoValor={"esquerda"} />
-								<CampoRenda valor={"R$ 884,11"} label={"2,0%"} posicaoValor={"esquerda"} />
-							</Col> */}
-							{/* <Col tamanho="7">
-								<div align="right">
-									
+						{/* <Row>
+							<div className="table-responsive">
+								<div className="table">
+									<tbody>
+										<tr> */}
+											<div className="row">
+												<div className="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+													<h4>R$ 221,51</h4>&nbsp; 0,5%
+												</div>
+											
+												<div className="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+													<h4>R$ 442,53</h4>&nbsp; 1,0%
+												</div>
+											
+												<div className="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+													<h4>R$ 663,09</h4>&nbsp; 1,5%
+												</div>
+											
+												<div className="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+													<h4>R$ 884,11</h4>&nbsp; 2,0%
+												</div>
+											</div>
+										{/* </tr>
+									</tbody>
 								</div>
-							</Col> */}
-						</Row>
+							</div>
+						</Row> */}
 						<br />
 
 						<Botao titulo="Voltar" clicar={() => this.props.setPaginaAtiva('informacoes', this.state)} tipo={"secondary"} usaLoading={true} />&nbsp;
+						<br className="br-on-mobile" />
+						<br className="br-on-mobile" />
+
 						<Botao titulo="Clique aqui para fazer sua Adesão!" clicar={this.aderir} tipo={"primary"} usaLoading={true} />
 					</Col>
 				</Row>
@@ -126,13 +141,3 @@ class Resultado extends Component {
 }
 
 export default Resultado;
-
-
-// texto 1: Calculada atuarialmente em função da expectativa de vida do participante e 
-// beneficiários, com ou sem reversão para pensão por morte. Benefício recalculado anualmente.
-
-// texto 2: Renda por Prazo Certo: recebimento entre 15 e 20 anos, cujo benefício será mantido em 
-// quantitativo de cotas e valorizado pela cota do mês anterior ao pagamento.
-
-// texto 3: Renda por Percentual do Saldo: aplicação de percentual entre 0,5% a 2,0% sobre o saldo da Conta Assistido,
-// cujo benefício será mantido em quantitativo de cotas e valorizado pela cota do mês anterior ao pagamento.

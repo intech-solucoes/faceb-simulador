@@ -22,3 +22,14 @@ label {
     margin-top: 5px;
     margin-bottom: 12px;
 }
+
+.br-on-mobile {
+    display: none;
+}
+
+@media screen and (max-width: 400px) {
+    .br-on-mobile {
+        display: inherit;
+    }
+}
+

@@ -5,7 +5,7 @@ import Row from './Row';
 import Botao from './Botao';
 import CampoEstatico from './CampoEstatico';
 import CampoRenda from './CampoRenda';
-import BotaoInfo from './BotaoInfo';
+import TituloResultado from './TituloResultado';
 
 export {
     Combo,
@@ -15,5 +15,5 @@ export {
     Botao,
     CampoEstatico,
     CampoRenda,
-    BotaoInfo
+    TituloResultado
 };

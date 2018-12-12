@@ -4,7 +4,7 @@ import React from 'react';
  * @returns Componente com o botão de informações.
  * @description Classe responsável pela renderização e comportamentos do botão de informações, que abre uma modal com o texto enviado.
  */
-export default class BotaoAjuda extends React.Component {
+export default class TituloResultado extends React.Component {
     constructor(props) {
         super(props);
 
@@ -54,14 +54,19 @@ export default class BotaoAjuda extends React.Component {
 
     render() {
         return (
-            <div className="col-1">
-                <button type="button" className="btn rounded-circle btn-informacao text-white" onClick={() => this.toggleModal()}>
-                    <i className="fas fa-info"></i>
-                </button>
+            <div className="row">
+                <h5><b>{this.props.titulo}</b></h5>
+
+                {this.props.usaBotaoInfo &&
+                    <button type="button" className="btn rounded-circle btn-informacao text-white" onClick={() => this.toggleModal()}>
+                        <i className="fas fa-info"></i>
+                    </button>
+                }
+
+                <hr />
 
                 {this.renderModal()}
             </div>
         );
     }
-
 }
