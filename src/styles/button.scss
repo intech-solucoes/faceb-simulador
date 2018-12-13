@@ -15,7 +15,11 @@
     line-height: 1.42;
     border-radius: 15px;
     background-color: #005484;
-    margin-top: -5px;
+    margin-top: 8px;
     margin-bottom: 20px;
-    margin-left: 5px;
+    margin-left: 10px;
+}
+
+.btn-informacao:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0,84,132,.5)
 }

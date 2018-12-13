@@ -53,15 +53,8 @@ class Resultado extends Component {
 											</tbody>
 										</div>
 									</div>
-									{/* <CampoRenda valor={"R$ 197,51"} label={"Com Reversão em Pensão"} posicaoValor={"direita"} />
-									<CampoRenda valor={"R$ 198,04"} label={"Sem Reversão em Pensão"} posicaoValor={"direita"} /> */}
 								</div>
 							</Col>
-							{/* <Col tamanho="7">
-								<div align="right">
-									
-								</div>
-							</Col> */}
 						</Row>
 						<br />
 
@@ -78,7 +71,7 @@ class Resultado extends Component {
 												<td><h4>R$ 226,70 </h4>em 15 anos</td>
 												<td><h4>R$ 212,53 </h4>em 16 anos</td>
 												<td><h4>R$ 200,03 </h4>em 17 anos</td>
-												<td className="hidden-xs-down"><h4>R$ 188,91 </h4>em 18 anos</td>
+												<td><h4>R$ 188,91 </h4>em 18 anos</td>
 												<td><h4>R$ 178,97 </h4>em 19 anos</td>
 												<td><h4>R$ 170,02 </h4>em 20 anos</td>
 											</tr>
@@ -95,37 +88,35 @@ class Resultado extends Component {
 							</Col>
 						</Row>
 						<br />
-						
+				
 						<TituloResultado titulo={"Renda por percentual do saldo de contas"} usaBotaoInfo 
 										 textoModal={"Renda por Percentual do Saldo: aplicação de percentual entre 0,5% a 2,0% sobre o saldo da Conta Assistido, cujo benefício será mantido em quantitativo de cotas e valorizado pela cota do mês anterior ao pagamento."} />
-
-						{/* <Row>
+								
+						<Row>
 							<div className="table-responsive">
 								<div className="table">
 									<tbody>
-										<tr> */}
-											<div className="row">
-												<div className="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-													<h4>R$ 221,51</h4>&nbsp; 0,5%
-												</div>
-											
-												<div className="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-													<h4>R$ 442,53</h4>&nbsp; 1,0%
-												</div>
-											
-												<div className="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-													<h4>R$ 663,09</h4>&nbsp; 1,5%
-												</div>
-											
-												<div className="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-													<h4>R$ 884,11</h4>&nbsp; 2,0%
-												</div>
-											</div>
-										{/* </tr>
+										<tr>
+											<td>
+												<h4>R$ 221,51</h4>&nbsp; 0,5%
+											</td>
+
+											<td>
+												<h4>R$ 442,53</h4>&nbsp; 1,0%
+											</td>
+
+											<td>
+												<h4>R$ 663,09</h4>&nbsp; 1,5%
+											</td>
+
+											<td>
+												<h4>R$ 884,11</h4>&nbsp; 2,0%
+											</td>
+										</tr>
 									</tbody>
 								</div>
 							</div>
-						</Row> */}
+						</Row>
 						<br />
 
 						<Botao titulo="Voltar" clicar={() => this.props.setPaginaAtiva('informacoes', this.state)} tipo={"secondary"} usaLoading={true} />&nbsp;

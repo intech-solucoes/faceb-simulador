@@ -55,7 +55,7 @@ export default class TituloResultado extends React.Component {
     render() {
         return (
             <div className="row">
-                <h5><b>{this.props.titulo}</b></h5>
+                <h5 className="titulo"><b>{this.props.titulo}</b></h5>
 
                 {this.props.usaBotaoInfo &&
                     <button type="button" className="btn rounded-circle btn-informacao text-white" onClick={() => this.toggleModal()}>

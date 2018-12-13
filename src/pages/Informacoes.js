@@ -72,8 +72,7 @@ class Informacoes extends Component {
             <div hidden={this.props.hidden} >
 				<Row>
 					<Col className="col-12 center">
-						<h5>Para começar, precisamos de algumas informações sobre</h5>
-						<h5>você e sua contribuição para o plano CEBPREV!</h5>
+						<h5>Para começar, precisamos de algumas informações sobre você e sua contribuição para o plano CEBPREV!</h5>
 						<br />
 
 						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[0] = input } tipo="text" nome="nome" 

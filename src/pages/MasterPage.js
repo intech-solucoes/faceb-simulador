@@ -26,22 +26,9 @@ class MasterPage extends Component {
             erroDataNascimento: false,
             erroNascimentoConjugue: false,
             erroNascimentoFilhoInvalido: false,
-            erroNascimentoFilhoMaisNovo: false,
+            erroNascimentoFilhoMaisNovo: false
 
             // States página Resultado
-            rendaCurtoPrazo: [
-                "226,70",
-                "212,53",
-                "200,03",
-                "188,91",
-                "178,97",
-                "170,02",
-                "161,93",
-                "154,57",
-                "147,85",
-                "141,68",
-                "136,02"
-            ]
         };
 
         this.informacoes = React.createRef();
