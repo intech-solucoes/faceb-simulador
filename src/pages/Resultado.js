@@ -32,7 +32,7 @@ class Resultado extends Component {
 						<br />
 
 						<TituloResultado titulo={"Renda por Prazo Curto"} usaBotaoInfo 
-										 textoModal={"Calculada atuarialmente em função da expectativa de vida do participante e beneficiários, com ou sem reversão para pensão por morte. Benefício recalculado anualmente."} />
+										 textoModal={"Calculada atuarialmente em função da expectativa de vida do participante e dos beneficiários, com ou sem reversão para pensão por morte. Benefício recalculado anualmente."} />
 
 						<Row>
 							<Col>
