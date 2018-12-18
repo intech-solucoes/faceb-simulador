@@ -23,7 +23,6 @@ export default class Botao extends Component {
     }
 
     render() {
-        var block = this.props.block ? " btn-block" : "";
         var sm = this.props.pequeno ? " btn-sm" : "";
         var type = this.props.submit ? "submit" : "button";
 

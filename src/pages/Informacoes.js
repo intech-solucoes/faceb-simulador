@@ -12,6 +12,10 @@ class Informacoes extends Component {
 		this.state = this.props.state;
 	}
 
+    onVisible(state) {
+        this.setState(state);
+    }
+
     limparErros = async () => {
         this.erros = [];
         await this.setState({ erros: this.erros });
@@ -53,7 +57,6 @@ class Informacoes extends Component {
 	}
 
 	onBlurCampoMonetario = async () => { 
-		console.log("");
 	}
 
 	validarData = async (campoErro, valor) => {

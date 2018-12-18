@@ -38,7 +38,7 @@ class Resultado extends Component {
 							<Col>
 								<div align="middle">
 									<div className="table-responsive">
-										<div className="table table-result">
+										<table className="table table-result">
 											<thead>
 												<tr>
 													<th>Com Reversão em Pensão</th>
@@ -47,11 +47,11 @@ class Resultado extends Component {
 											</thead>
 											<tbody>
 												<tr>
-													<td><h4>R$ 197,51</h4></td>
+													<td><h4>R$ 197,94</h4></td>
 													<td><h4>R$ 198,04</h4></td>
 												</tr>
 											</tbody>
-										</div>
+										</table>
 									</div>
 								</div>
 							</Col>
@@ -64,7 +64,7 @@ class Resultado extends Component {
 						<Row>
 							<Col>
 								<div className="table-responsive">
-									<div className="table">
+									<table className="table">
 										<thead />
 										<tbody>
 											<tr>
@@ -83,18 +83,18 @@ class Resultado extends Component {
 												<td><h4>R$ 136,02 </h4>em 25 anos</td>
 											</tr>
 										</tbody>
-									</div>
+									</table>
 								</div>
 							</Col>
 						</Row>
 						<br />
-				
+
 						<TituloResultado titulo={"Renda por percentual do saldo de contas"} usaBotaoInfo 
 										 textoModal={"Renda por Percentual do Saldo: aplicação de percentual entre 0,5% a 2,0% sobre o saldo da Conta Assistido, cujo benefício será mantido em quantitativo de cotas e valorizado pela cota do mês anterior ao pagamento."} />
 								
 						<Row>
 							<div className="table-responsive">
-								<div className="table">
+								<table className="table">
 									<tbody>
 										<tr>
 											<td>
@@ -114,7 +114,7 @@ class Resultado extends Component {
 											</td>
 										</tr>
 									</tbody>
-								</div>
+								</table>
 							</div>
 						</Row>
 						<br />

@@ -3,10 +3,6 @@ import React, { Component } from 'react';
 export default class CampoRenda extends Component { 
 
     render() {
-        var format = "form-group";
-        if(this.props.formatoComponente)
-            format = this.props.formatoComponente;
-        
         return (
             <div className="input-group">
                 {this.props.posicaoValor === 'esquerda' &&

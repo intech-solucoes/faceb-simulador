@@ -46,11 +46,6 @@ export default class Combo extends Component {
 	}
 
     render() {
-		var col = "col";
-
-		if(this.props.col)
-            col = this.props.col;
-
 		var opcoes = [];
 		for(var i = this.props.min; i <= this.props.max; i = parseFloat((i + this.props.incremento).toFixed(2)))
 		{

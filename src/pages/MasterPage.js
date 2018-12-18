@@ -26,9 +26,16 @@ class MasterPage extends Component {
             erroDataNascimento: false,
             erroNascimentoConjugue: false,
             erroNascimentoFilhoInvalido: false,
-            erroNascimentoFilhoMaisNovo: false
+            erroNascimentoFilhoMaisNovo: false,
 
             // States página Resultado
+            dataAposentadoria: "",
+            saldoContas: "",
+            valorResgate: "",
+            rendaSemReversaoPensao: "",
+            rendaComReversaoPensao: "",
+            rendaPrazoCerto: [],
+            rendaSaldoContas: []
         };
 
         this.informacoes = React.createRef();
@@ -42,9 +49,14 @@ class MasterPage extends Component {
     setPaginaAtiva = async (pagina, state) => {
         window.scrollTo(0, 0);
 
-        await this.setState({ state });
+        await this.setState(state);
 
-        await this.setState({ pagina: pagina});
+        await this.setState({ pagina: pagina });
+
+        if(pagina === 'informacoes')
+            this.informacoes.current.onVisible(this.state);
+        else if(pagina === 'resultado') 
+            this.resultado.current.onVisible(this.state);
 
     }
 
