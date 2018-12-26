@@ -29,13 +29,15 @@ class MasterPage extends Component {
             erroNascimentoFilhoMaisNovo: false,
 
             // States página Resultado
-            dataAposentadoria: "",
-            saldoContas: "",
-            valorResgate: "",
-            rendaSemReversaoPensao: "",
-            rendaComReversaoPensao: "",
-            rendaPrazoCerto: [],
-            rendaSaldoContas: []
+            valorFuturo: "",
+            valorSaque: "",
+            idadeDependente: "",
+            fatorAtuarialPensaoMorte: "",
+            fatorAtuarialSemPensaoMorte: "",
+            rendaPrazoIndeterminadoPensaoMorte: "",
+            rendaPrazoIndeterminadoSemPensaoMorte: "",
+            listaPrazos: [],
+            listaSaldoPercentuais: []
         };
 
         this.informacoes = React.createRef();

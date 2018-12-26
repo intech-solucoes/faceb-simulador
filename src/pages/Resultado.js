@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { SimuladorService } from '@intechprev/advanced-service';
 
 import { Botao, Row, Col, CampoEstatico, TituloResultado } from './componentes';
+
+const service = new SimuladorService();
 
 class Resultado extends Component {
 	constructor(props) { 
@@ -12,8 +15,66 @@ class Resultado extends Component {
 	componentDidMount = () => { 
 	}
 
+	onVisible = async (state) => {
+		await this.setState(state);
+
+		var contribBasica =  this.converteStringFloat(this.state.remuneracaoInicial) * (this.state.percentualContribuicao / 100);
+		var contribFacultativa =  this.converteStringFloat(this.state.contribuicaoFacultativa);
+		var taxaJuros = this.converteStringFloat(this.state.taxaJuros);
+		
+		console.log(this.state);
+		try {
+			var { data: resultadoSimulacao } = await service.SimularNaoParticipante(contribBasica, contribFacultativa, 
+				this.state.idadeAposentadoria, this.state.percentualSaque, this.state.dataNascimento, this.state.nascimentoConjugue, 
+				this.state.nascimentoFilhoInvalido, this.state.nascimentoFilhoMaisNovo, taxaJuros);
+
+			await this.setState({
+				valorFuturo: resultadoSimulacao.valorFuturo,
+				valorSaque: resultadoSimulacao.valorSaque,
+				idadeDependente: resultadoSimulacao.idadeDependente,
+				fatorAtuarialPensaoMorte: resultadoSimulacao.fatorAtuarialPensaoMorte,
+				fatorAtuarialSemPensaoMorte: resultadoSimulacao.fatorAtuarialSemPensaoMorte,
+				rendaPrazoIndeterminadoPensaoMorte: resultadoSimulacao.rendaPrazoIndeterminadoPensaoMorte,
+				rendaPrazoIndeterminadoSemPensaoMorte: resultadoSimulacao.rendaPrazoIndeterminadoSemPensaoMorte,
+				listaPrazos: resultadoSimulacao.listaPrazos,
+				listaSaldoPercentuais: resultadoSimulacao.listaSaldoPercentuais
+			});
+
+			console.log("resultado", resultadoSimulacao);
+		} catch(err) {
+			if(err.response) {
+				console.error(err.response.data);
+			} else {
+				console.error(err);
+			}
+		}
+	}
+
+    converteStringFloat = (valor) => {
+		if(typeof(valor) !== 'string')
+			return valor;
+
+		if(valor.match(/./))
+			valor = valor.replace(/\./g, '');   // Troca todos os pontos por espaços vazios (pontos que separam os milhares).
+			
+        valor = valor.replace(',', '.');    // Troca a única vírgula por ponto.
+		valor = parseFloat(valor);
+        return valor;
+	}
+
+	formatarValorBrasileiro = async (valor) => { 
+		if(isNaN(valor) || valor === "")
+			valor = '0,00';
+
+		valor = parseFloat(valor);
+		valor = valor.toFixed(2).split('.');
+		valor[0] = valor[0].split(/(?=(?:...)*$)/).join('.');   // Regex utilizada para colocar um (.) a cada 3 casas decimais antes da vírgula, para separar os milhares.
+
+		return valor;
+	}
+
 	aderir = async () => { 
-		console.log("Redirecionando para Faceb...");
+		window.open('http://www.faceb.com.br/', '_blank');
 	}
 
 	render() {
