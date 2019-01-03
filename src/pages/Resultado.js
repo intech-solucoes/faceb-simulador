@@ -20,16 +20,20 @@ class Resultado extends Component {
 
 		var contribBasica =  this.converteStringFloat(this.state.remuneracaoInicial) * (this.state.percentualContribuicao / 100);
 		var contribFacultativa =  this.converteStringFloat(this.state.contribuicaoFacultativa);
-		var taxaJuros = this.converteStringFloat(this.state.taxaJuros);
+		var taxaJuros = this.state.taxaJuros;
 		
-		console.log(this.state);
+		var nascimentoConjugue = this.state.nascimentoConjugue === "" ? null : this.state.nascimentoConjugue;
+		var nascimentoFilhoInvalido = this.state.nascimentoFilhoInvalido === "" ? null : this.state.nascimentoFilhoInvalido;
+		var nascimentoFilhoMaisNovo = this.state.nascimentoFilhoMaisNovo === "" ? null : this.state.nascimentoFilhoMaisNovo;
+
 		try {
 			var { data: resultadoSimulacao } = await service.SimularNaoParticipante(contribBasica, contribFacultativa, 
-				this.state.idadeAposentadoria, this.state.percentualSaque, this.state.dataNascimento, this.state.nascimentoConjugue, 
-				this.state.nascimentoFilhoInvalido, this.state.nascimentoFilhoMaisNovo, taxaJuros);
+				this.state.idadeAposentadoria, this.state.percentualSaque, this.state.dataNascimento, nascimentoConjugue, 
+				nascimentoFilhoInvalido, nascimentoFilhoMaisNovo, taxaJuros);
 
 			await this.setState({
 				valorFuturo: resultadoSimulacao.valorFuturo,
+				dataAposentadoria: resultadoSimulacao.dataAposentadoria,
 				valorSaque: resultadoSimulacao.valorSaque,
 				idadeDependente: resultadoSimulacao.idadeDependente,
 				fatorAtuarialPensaoMorte: resultadoSimulacao.fatorAtuarialPensaoMorte,
@@ -40,7 +44,7 @@ class Resultado extends Component {
 				listaSaldoPercentuais: resultadoSimulacao.listaSaldoPercentuais
 			});
 
-			console.log("resultado", resultadoSimulacao);
+			this.formatarValorBrasileiro(resultadoSimulacao);
 		} catch(err) {
 			if(err.response) {
 				console.error(err.response.data);
@@ -62,15 +66,24 @@ class Resultado extends Component {
         return valor;
 	}
 
-	formatarValorBrasileiro = async (valor) => { 
-		if(isNaN(valor) || valor === "")
-			valor = '0,00';
+	formatarValorBrasileiro = async (resultados) => {
+		for (const resultado in resultados) {
+			if(typeof(resultados[resultado]) === "number") {
+				resultados[resultado] = parseFloat(resultados[resultado]);
+				resultados[resultado] = resultados[resultado].toFixed(2).split('.');
+				resultados[resultado][0] = resultados[resultado][0].split(/(?=(?:...)*$)/).join('.');   // Regex utilizada para colocar um (.) a cada 3 casas decimais antes da vírgula, para separar os milhares.
+				resultados[resultado] = resultados[resultado].join(',');
 
-		valor = parseFloat(valor);
-		valor = valor.toFixed(2).split('.');
-		valor[0] = valor[0].split(/(?=(?:...)*$)/).join('.');   // Regex utilizada para colocar um (.) a cada 3 casas decimais antes da vírgula, para separar os milhares.
-
-		return valor;
+			} else if (typeof(resultados[resultado]) === "object") {
+				for (const valorPrazo in resultados[resultado]) {
+					resultados[resultado][valorPrazo].Value= parseFloat(resultados[resultado][valorPrazo].Value);
+					resultados[resultado][valorPrazo].Value= resultados[resultado][valorPrazo].Value.toFixed(2).split('.');
+					resultados[resultado][valorPrazo].Value[0] = resultados[resultado][valorPrazo].Value[0].split(/(?=(?:...)*$)/).join('.');   // Regex utilizada para colocar um (.) a cada 3 casas decimais antes da vírgula, para separar os milhares.
+					resultados[resultado][valorPrazo].Value= resultados[resultado][valorPrazo].Value.join(',');
+				}
+			}
+			await this.setState({ [resultado]: resultados[resultado] });
+		}
 	}
 
 	aderir = async () => { 
@@ -83,16 +96,16 @@ class Resultado extends Component {
 				<Row>
 					<Col className={"col-lg-8 col-md-8 col-sm-12 col-xs-12 center"}>
 						<h3><b>Resultado da simulação</b></h3>
-						<CampoEstatico titulo="Data da Aposentadoria" valor={"17/08/2050"} />
+						<CampoEstatico titulo="Data da Aposentadoria" valor={this.state.dataAposentadoria} />
 
-						<CampoEstatico titulo="Saldo de Contas para a data de aposentadoria" valor={"R$ 52.745,87"} />
+						<CampoEstatico titulo="Saldo de Contas para a data de aposentadoria" valor={`R$ ${this.state.valorFuturo}`} />
 
-						<CampoEstatico titulo="Valor do Resgate Solicitado" valor={"R$ 5.274,58"} />
+						<CampoEstatico titulo="Valor do Resgate Solicitado" valor={`R$ ${this.state.valorSaque}`} />
 
 						<h3>Opções de Recebimento da sua Aposentadoria</h3>
 						<br />
 
-						<TituloResultado titulo={"Renda por Prazo Curto"} usaBotaoInfo 
+						<TituloResultado titulo={"Renda por Prazo Indeterminado"} usaBotaoInfo 
 										 textoModal={"Calculada atuarialmente em função da expectativa de vida do participante e dos beneficiários, com ou sem reversão para pensão por morte. Benefício recalculado anualmente."} />
 
 						<Row>
@@ -108,8 +121,8 @@ class Resultado extends Component {
 											</thead>
 											<tbody>
 												<tr>
-													<td><h4>R$ 197,94</h4></td>
-													<td><h4>R$ 198,04</h4></td>
+													<td><h4>R$ {this.state.rendaPrazoIndeterminadoPensaoMorte}</h4></td>
+													<td><h4>R$ {this.state.rendaPrazoIndeterminadoSemPensaoMorte}</h4></td>
 												</tr>
 											</tbody>
 										</table>
@@ -129,19 +142,19 @@ class Resultado extends Component {
 										<thead />
 										<tbody>
 											<tr>
-												<td><h4>R$ 226,70 </h4>em 15 anos</td>
-												<td><h4>R$ 212,53 </h4>em 16 anos</td>
-												<td><h4>R$ 200,03 </h4>em 17 anos</td>
-												<td><h4>R$ 188,91 </h4>em 18 anos</td>
-												<td><h4>R$ 178,97 </h4>em 19 anos</td>
-												<td><h4>R$ 170,02 </h4>em 20 anos</td>
+												<td><h4>R$ {this.state.listaPrazos[0].Value} </h4>em {this.state.listaPrazos[0].Key} anos</td>
+												<td><h4>R$ {this.state.listaPrazos[1].Value} </h4>em {this.state.listaPrazos[1].Key} anos</td>
+												<td><h4>R$ {this.state.listaPrazos[2].Value} </h4>em {this.state.listaPrazos[2].Key} anos</td>
+												<td><h4>R$ {this.state.listaPrazos[3].Value} </h4>em {this.state.listaPrazos[3].Key} anos</td>
+												<td><h4>R$ {this.state.listaPrazos[4].Value} </h4>em {this.state.listaPrazos[4].Key} anos</td>
+												<td><h4>R$ {this.state.listaPrazos[5].Value} </h4>em {this.state.listaPrazos[5].Key} anos</td>
 											</tr>
 											<tr>
-												<td><h4>R$ 161,93 </h4>em 21 anos</td>
-												<td><h4>R$ 154,57 </h4>em 22 anos</td>
-												<td><h4>R$ 147,85 </h4>em 23 anos</td>
-												<td><h4>R$ 141,68 </h4>em 24 anos</td>
-												<td><h4>R$ 136,02 </h4>em 25 anos</td>
+												<td><h4>R$ {this.state.listaPrazos[6].Value} </h4>em {this.state.listaPrazos[6].Key} anos</td>
+												<td><h4>R$ {this.state.listaPrazos[7].Value} </h4>em {this.state.listaPrazos[7].Key} anos</td>
+												<td><h4>R$ {this.state.listaPrazos[8].Value} </h4>em {this.state.listaPrazos[8].Key} anos</td>
+												<td><h4>R$ {this.state.listaPrazos[9].Value} </h4>em {this.state.listaPrazos[9].Key} anos</td>
+												<td><h4>R$ {this.state.listaPrazos[10].Value} </h4>em {this.state.listaPrazos[10].Key} anos</td>
 											</tr>
 										</tbody>
 									</table>
@@ -159,19 +172,19 @@ class Resultado extends Component {
 									<tbody>
 										<tr>
 											<td>
-												<h4>R$ 221,51</h4>&nbsp; 0,5%
+												<h4>R$ {this.state.listaSaldoPercentuais[0].Value}</h4>&nbsp; {this.state.listaSaldoPercentuais[0].Key}%
 											</td>
 
 											<td>
-												<h4>R$ 442,53</h4>&nbsp; 1,0%
+												<h4>R$ {this.state.listaSaldoPercentuais[1].Value}</h4>&nbsp; {this.state.listaSaldoPercentuais[1].Key}%
 											</td>
 
 											<td>
-												<h4>R$ 663,09</h4>&nbsp; 1,5%
+												<h4>R$ {this.state.listaSaldoPercentuais[2].Value}</h4>&nbsp; {this.state.listaSaldoPercentuais[2].Key}%
 											</td>
 
 											<td>
-												<h4>R$ 884,11</h4>&nbsp; 2,0%
+												<h4>R$ {this.state.listaSaldoPercentuais[3].Value}</h4>&nbsp; {this.state.listaSaldoPercentuais[3].Key}%
 											</td>
 										</tr>
 									</tbody>

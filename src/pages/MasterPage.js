@@ -19,7 +19,7 @@ class MasterPage extends Component {
 			nascimentoFilhoMaisNovo: "",
 			idadeAposentadoria: "",
 			percentualSaque: "",
-            taxaJuros: "1",
+            taxaJuros: "",
             
             // States de erros
             erros: [],
@@ -30,14 +30,15 @@ class MasterPage extends Component {
 
             // States página Resultado
             valorFuturo: "",
+            dataAposentadoria: "",
             valorSaque: "",
             idadeDependente: "",
             fatorAtuarialPensaoMorte: "",
             fatorAtuarialSemPensaoMorte: "",
             rendaPrazoIndeterminadoPensaoMorte: "",
             rendaPrazoIndeterminadoSemPensaoMorte: "",
-            listaPrazos: [],
-            listaSaldoPercentuais: []
+            listaPrazos: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
+            listaSaldoPercentuais: [{}, {}, {}, {}]
         };
 
         this.informacoes = React.createRef();
