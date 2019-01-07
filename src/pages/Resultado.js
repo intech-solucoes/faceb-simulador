@@ -20,14 +20,15 @@ class Resultado extends Component {
 
 		var contribBasica =  this.converteStringFloat(this.state.remuneracaoInicial) * (this.state.percentualContribuicao / 100);
 		var contribFacultativa =  this.converteStringFloat(this.state.contribuicaoFacultativa);
-		var taxaJuros = this.state.taxaJuros;
+		var aporte = this.state.aporte === "" ? 0 : this.converteStringFloat(this.state.aporte);
+		var taxaJuros = 4.38;	// Fixo em 4.38 para testes.
 		
 		var nascimentoConjugue = this.state.nascimentoConjugue === "" ? null : this.state.nascimentoConjugue;
 		var nascimentoFilhoInvalido = this.state.nascimentoFilhoInvalido === "" ? null : this.state.nascimentoFilhoInvalido;
 		var nascimentoFilhoMaisNovo = this.state.nascimentoFilhoMaisNovo === "" ? null : this.state.nascimentoFilhoMaisNovo;
 
 		try {
-			var { data: resultadoSimulacao } = await service.SimularNaoParticipante(contribBasica, contribFacultativa, 
+			var { data: resultadoSimulacao } = await service.SimularNaoParticipante(contribBasica, contribFacultativa, aporte,
 				this.state.idadeAposentadoria, this.state.percentualSaque, this.state.dataNascimento, nascimentoConjugue, 
 				nascimentoFilhoInvalido, nascimentoFilhoMaisNovo, taxaJuros);
 

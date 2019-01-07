@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { CampoTexto, Combo, Row, Col, Botao } from './componentes';
-import DataInvalida from './utils/Data';
+import { DataInvalida, CalculaIdade } from './utils';
 
 class Informacoes extends Component {
 	constructor(props) {
@@ -10,6 +10,10 @@ class Informacoes extends Component {
         this.erros = [];
 
 		this.state = this.props.state;
+	}
+
+	componentDidMount() {
+		setTimeout(() => this.calcularIdadeMinima(), 5000)
 	}
 
     onVisible(state) {
@@ -27,33 +31,41 @@ class Informacoes extends Component {
     }
 
 	continuar = async () => { 
-		if(this.state.percentualSaque === '')
-			await this.setState({ percentualSaque: 0 });
-
-		await this.limparErros();
-        for(var i = 0; i < this.listaCampos.length; i++) {
-			var campo = this.listaCampos[i];
-
-			await campo.validar();
-
-            if(campo.possuiErros)
-				await this.adicionarErro(campo.erros);
+		try {
+			if(this.state.percentualSaque === '')
+				await this.setState({ percentualSaque: 0 });
+	
+			await this.limparErros();
+			for(var i = 0; i < this.listaCampos.length; i++) {
+				var campo = this.listaCampos[i];
+	
+				await campo.validar();
+	
+				if(campo.possuiErros)
+					await this.adicionarErro(campo.erros);
+			}
+			
+			if(this.state.nascimentoConjugue.length <= 0)
+				await this.setState({ erroNascimentoConjugue: false });	
+	
+			if(this.state.nascimentoFilhoInvalido.length <= 0)
+				await this.setState({ erroNascimentoFilhoInvalido: false });	
+	
+			if(this.state.nascimentoFilhoMaisNovo.length <= 0)
+				await this.setState({ erroNascimentoFilhoMaisNovo: false });	
+	
+			var errosData = this.state.erroDataNascimento || this.state.erroNascimentoConjugue || this.state.erroNascimentoFilhoInvalido 
+						|| this.state.erroNascimentoFilhoMaisNovo;
+	
+			if(this.erros.length === 0 && !errosData)
+				this.props.setPaginaAtiva("resultado", this.state);
+		} catch(err) {
+			if(err.response) {
+				console.error(err.response.data)
+				this.adicionarErro(err.response.data);
+			} else
+				console.error(err);
 		}
-		
-		if(this.state.nascimentoConjugue.length <= 0)
-			await this.setState({ erroNascimentoConjugue: false });	
-
-		if(this.state.nascimentoFilhoInvalido.length <= 0)
-			await this.setState({ erroNascimentoFilhoInvalido: false });	
-
-		if(this.state.nascimentoFilhoMaisNovo.length <= 0)
-			await this.setState({ erroNascimentoFilhoMaisNovo: false });	
-
-		var errosData = this.state.erroDataNascimento || this.state.erroNascimentoConjugue || this.state.erroNascimentoFilhoInvalido 
-					|| this.state.erroNascimentoFilhoMaisNovo;
-
-		if(this.erros.length === 0 && !errosData)
-			this.props.setPaginaAtiva("resultado", this.state);
 	}
 
 	onBlurCampoMonetario = async () => { 
@@ -64,12 +76,31 @@ class Informacoes extends Component {
 		var dataObjeto = new Date(dataPartes[2], dataPartes[1] - 1, dataPartes[0]);
 		
 		var dataInvalida = DataInvalida(dataObjeto, valor);
-		
-		await this.setState({
-			[campoErro]: dataInvalida
-		})
+		if(valor !== "")
+			await this.setState({ [campoErro]: dataInvalida })
+
+		this.calcularIdadeMinima();
 	}
 
+	calcularIdadeMinima = () => {
+		var dataNascimento = new Date(this.converteData(this.state.dataNascimento));
+		var idade = CalculaIdade(dataNascimento).anos;
+		
+		if(idade < 48)
+			return 48;
+		else if(idade >= 48 && idade <= 70)
+			return idade;
+		else if(idade === isNaN(idade))
+			return 48;
+		else if(idade > 70)
+			return 70;
+	}
+
+	converteData = (dataString) => {
+        var dataPartes = dataString.split("/");
+        return new Date(dataPartes[2], dataPartes[1] - 1, dataPartes[0]);
+	}
+	
 	render() {
 		return (
             <div hidden={this.props.hidden} >
@@ -95,35 +126,38 @@ class Informacoes extends Component {
 						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[4] = input } tipo="text" nome="contribuicaoFacultativa" 
 									valor={this.state.contribuicaoFacultativa} obrigatorio className="money" max={10} onBlur={this.onBlurCampoMonetario}
 									label={"Deseja realizar contribuições facultativas?"} labelSecundaria={"(Contribuição exclusiva do participante)"} />
+
+						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[5] = input } tipo="text" nome="aporte" 
+									valor={this.state.aporte} className="money" max={10} label={"Deseja realizar um aporte inicial?"} />
 						<br />
 
 						<h4>Composição Familiar</h4>
 
-						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[5] = input } nome="nascimentoConjugue" mascara={"99/99/9999"}
+						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[6] = input } nome="nascimentoConjugue" mascara={"99/99/9999"}
 									valor={this.state.nascimentoConjugue} tipo="data" label={"Data de nascimento do cônjugue ou companheiro"} 
 									onBlur={() => this.validarData('erroNascimentoConjugue', this.state.nascimentoConjugue)} erro={this.state.erroNascimentoConjugue} />
 									
-						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[6] = input } nome="nascimentoFilhoInvalido" mascara={"99/99/9999"}
+						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[7] = input } nome="nascimentoFilhoInvalido" mascara={"99/99/9999"}
 									valor={this.state.nascimentoFilhoInvalido} tipo="data" label={"Possui filho inválido? Data de nascimento"} 
 									onBlur={() => this.validarData('erroNascimentoFilhoInvalido', this.state.nascimentoFilhoInvalido)} erro={this.state.erroNascimentoFilhoInvalido} />
 
-						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[7] = input } nome="nascimentoFilhoMaisNovo" mascara={"99/99/9999"}
+						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[8] = input } nome="nascimentoFilhoMaisNovo" mascara={"99/99/9999"}
 									valor={this.state.nascimentoFilhoMaisNovo} tipo="data" label={"Data de nascimento do filho mais novo"} 
 									onBlur={() => this.validarData('erroNascimentoFilhoMaisNovo', this.state.nascimentoFilhoMaisNovo)} erro={this.state.erroNascimentoFilhoMaisNovo} />														
 						<br />
 
 						<h3>Estamos quase lá!</h3>
 
-						<Combo contexto={this} ref={ (input) => this.listaCampos[8] = input } label={"Com quantos anos você pretende se aposentar?"} 
+						<Combo contexto={this} ref={ (input) => this.listaCampos[9] = input } label={"Com quantos anos você pretende se aposentar?"} 
 							   nome="idadeAposentadoria" valor={this.state.idadeAposentadoria} obrigatorio
-							   min={48} max={70} incremento={1} padrao={48} sufixo={" anos"} />
+							   min={this.calcularIdadeMinima()} max={70} incremento={1} padrao={48} sufixo={" anos"} />
 
-						<Combo contexto={this} ref={ (input) => this.listaCampos[9] = input } 
+						<Combo contexto={this} ref={ (input) => this.listaCampos[10] = input } 
 							   label={"Você deseja sacar à vista um percentual do seu saldo de contas na concessão do benefício?"} 
 							   nome="percentualSaque" valor={this.state.percentualSaque} obrigatorio
 							   min={1} max={25} incremento={1} textoVazio={"NÃO"} prefixo={"SIM - "} sufixo={"%"} />
 
-						<Combo contexto={this} ref={ (input) => this.listaCampos[10] = input } label={"Taxa de juros para simulação"} 
+						<Combo contexto={this} ref={ (input) => this.listaCampos[11] = input } label={"Taxa de juros para simulação"} 
 							   nome="taxaJuros" valor={this.state.taxaJuros} obrigatorio
 							   min={4} max={5.5} incremento={0.5} padrao={4} sufixo={"%"} decimais />
 
