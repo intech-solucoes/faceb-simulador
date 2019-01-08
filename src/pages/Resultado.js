@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { SimuladorService } from '@intechprev/advanced-service';
 
 import { Botao, Row, Col, CampoEstatico, TituloResultado } from './componentes';
-
-const service = new SimuladorService();
 
 class Resultado extends Component {
 	constructor(props) { 
@@ -17,74 +14,6 @@ class Resultado extends Component {
 
 	onVisible = async (state) => {
 		await this.setState(state);
-
-		var contribBasica =  this.converteStringFloat(this.state.remuneracaoInicial) * (this.state.percentualContribuicao / 100);
-		var contribFacultativa =  this.converteStringFloat(this.state.contribuicaoFacultativa);
-		var aporte = this.state.aporte === "" ? 0 : this.converteStringFloat(this.state.aporte);
-		var taxaJuros = 4.38;	// Fixo em 4.38 para testes.
-		
-		var nascimentoConjugue = this.state.nascimentoConjugue === "" ? null : this.state.nascimentoConjugue;
-		var nascimentoFilhoInvalido = this.state.nascimentoFilhoInvalido === "" ? null : this.state.nascimentoFilhoInvalido;
-		var nascimentoFilhoMaisNovo = this.state.nascimentoFilhoMaisNovo === "" ? null : this.state.nascimentoFilhoMaisNovo;
-
-		try {
-			var { data: resultadoSimulacao } = await service.SimularNaoParticipante(contribBasica, contribFacultativa, aporte,
-				this.state.idadeAposentadoria, this.state.percentualSaque, this.state.dataNascimento, nascimentoConjugue, 
-				nascimentoFilhoInvalido, nascimentoFilhoMaisNovo, taxaJuros);
-
-			await this.setState({
-				valorFuturo: resultadoSimulacao.valorFuturo,
-				dataAposentadoria: resultadoSimulacao.dataAposentadoria,
-				valorSaque: resultadoSimulacao.valorSaque,
-				idadeDependente: resultadoSimulacao.idadeDependente,
-				fatorAtuarialPensaoMorte: resultadoSimulacao.fatorAtuarialPensaoMorte,
-				fatorAtuarialSemPensaoMorte: resultadoSimulacao.fatorAtuarialSemPensaoMorte,
-				rendaPrazoIndeterminadoPensaoMorte: resultadoSimulacao.rendaPrazoIndeterminadoPensaoMorte,
-				rendaPrazoIndeterminadoSemPensaoMorte: resultadoSimulacao.rendaPrazoIndeterminadoSemPensaoMorte,
-				listaPrazos: resultadoSimulacao.listaPrazos,
-				listaSaldoPercentuais: resultadoSimulacao.listaSaldoPercentuais
-			});
-
-			this.formatarValorBrasileiro(resultadoSimulacao);
-		} catch(err) {
-			if(err.response) {
-				console.error(err.response.data);
-			} else {
-				console.error(err);
-			}
-		}
-	}
-
-    converteStringFloat = (valor) => {
-		if(typeof(valor) !== 'string')
-			return valor;
-
-		if(valor.match(/./))
-			valor = valor.replace(/\./g, '');   // Troca todos os pontos por espaços vazios (pontos que separam os milhares).
-			
-        valor = valor.replace(',', '.');    // Troca a única vírgula por ponto.
-		valor = parseFloat(valor);
-        return valor;
-	}
-
-	formatarValorBrasileiro = async (resultados) => {
-		for (const resultado in resultados) {
-			if(typeof(resultados[resultado]) === "number") {
-				resultados[resultado] = parseFloat(resultados[resultado]);
-				resultados[resultado] = resultados[resultado].toFixed(2).split('.');
-				resultados[resultado][0] = resultados[resultado][0].split(/(?=(?:...)*$)/).join('.');   // Regex utilizada para colocar um (.) a cada 3 casas decimais antes da vírgula, para separar os milhares.
-				resultados[resultado] = resultados[resultado].join(',');
-
-			} else if (typeof(resultados[resultado]) === "object") {
-				for (const valorPrazo in resultados[resultado]) {
-					resultados[resultado][valorPrazo].Value= parseFloat(resultados[resultado][valorPrazo].Value);
-					resultados[resultado][valorPrazo].Value= resultados[resultado][valorPrazo].Value.toFixed(2).split('.');
-					resultados[resultado][valorPrazo].Value[0] = resultados[resultado][valorPrazo].Value[0].split(/(?=(?:...)*$)/).join('.');   // Regex utilizada para colocar um (.) a cada 3 casas decimais antes da vírgula, para separar os milhares.
-					resultados[resultado][valorPrazo].Value= resultados[resultado][valorPrazo].Value.join(',');
-				}
-			}
-			await this.setState({ [resultado]: resultados[resultado] });
-		}
 	}
 
 	aderir = async () => { 
