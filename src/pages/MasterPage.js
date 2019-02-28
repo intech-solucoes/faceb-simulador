@@ -15,7 +15,7 @@ class MasterPage extends Component {
 			percentualContribuicao: "",
             contribuicaoFacultativa: "0,00",
             aporte: "0,00",
-			nascimentoConjugue: "",
+			nascimentoConjuge: "",
 			nascimentoFilhoInvalido: "",
 			nascimentoFilhoMaisNovo: "",
 			idadeAposentadoria: "",
@@ -25,7 +25,7 @@ class MasterPage extends Component {
             // States de erros
             erros: [],
             erroDataNascimento: false,
-            erroNascimentoConjugue: false,
+            erroNascimentoConjuge: false,
             erroNascimentoFilhoInvalido: false,
             erroNascimentoFilhoMaisNovo: false,
 

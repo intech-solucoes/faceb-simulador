@@ -48,8 +48,8 @@ class Informacoes extends Component {
 					await this.adicionarErro(campo.erros);
 			}
 			
-			if(this.state.nascimentoConjugue.length <= 0)
-				await this.setState({ erroNascimentoConjugue: false });	
+			if(this.state.nascimentoConjuge.length <= 0)
+				await this.setState({ erroNascimentoConjuge: false });	
 	
 			if(this.state.nascimentoFilhoInvalido.length <= 0)
 				await this.setState({ erroNascimentoFilhoInvalido: false });	
@@ -57,21 +57,21 @@ class Informacoes extends Component {
 			if(this.state.nascimentoFilhoMaisNovo.length <= 0)
 				await this.setState({ erroNascimentoFilhoMaisNovo: false });	
 	
-			var errosData = this.state.erroDataNascimento || this.state.erroNascimentoConjugue || this.state.erroNascimentoFilhoInvalido 
+			var errosData = this.state.erroDataNascimento || this.state.erroNascimentoConjuge || this.state.erroNascimentoFilhoInvalido 
 						|| this.state.erroNascimentoFilhoMaisNovo;
 	
 			var contribBasica =  this.converteStringFloat(this.state.remuneracaoInicial) * (this.state.percentualContribuicao / 100);
 			var contribFacultativa =  this.converteStringFloat(this.state.contribuicaoFacultativa);
 			var aporte = this.state.aporte === "" ? 0 : this.converteStringFloat(this.state.aporte);
-			var taxaJuros = this.converteStringFloat(this.state.taxaJuros);	// Fixo em 4.38 para testes.
+			var taxaJuros = this.converteStringFloat(this.state.taxaJuros);
 			
-			var nascimentoConjugue = this.state.nascimentoConjugue === "" ? null : this.state.nascimentoConjugue;
+			var nascimentoConjuge = this.state.nascimentoConjuge === "" ? null : this.state.nascimentoConjuge;
 			var nascimentoFilhoInvalido = this.state.nascimentoFilhoInvalido === "" ? null : this.state.nascimentoFilhoInvalido;
 			var nascimentoFilhoMaisNovo = this.state.nascimentoFilhoMaisNovo === "" ? null : this.state.nascimentoFilhoMaisNovo;
 
 			if(this.erros.length === 0 && !errosData) {
 				var { data: resultadoSimulacao } = await service.SimularNaoParticipante(contribBasica, contribFacultativa, aporte,
-					this.state.idadeAposentadoria, this.state.percentualSaque, this.state.dataNascimento, nascimentoConjugue, 
+					this.state.idadeAposentadoria, this.state.percentualSaque, this.state.dataNascimento, nascimentoConjuge, 
 					nascimentoFilhoInvalido, nascimentoFilhoMaisNovo, taxaJuros);
 	
 				await this.setState({
@@ -197,9 +197,9 @@ class Informacoes extends Component {
 
 						<h4>Composição Familiar</h4>
 
-						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[6] = input } nome="nascimentoConjugue" mascara={"99/99/9999"}
-									valor={this.state.nascimentoConjugue} tipo="data" label={"Data de nascimento do cônjugue ou companheiro"} 
-									onBlur={() => this.validarData('erroNascimentoConjugue', this.state.nascimentoConjugue)} erro={this.state.erroNascimentoConjugue} />
+						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[6] = input } nome="nascimentoConjuge" mascara={"99/99/9999"}
+									valor={this.state.nascimentoConjuge} tipo="data" label={"Data de nascimento do cônjuge ou companheiro"} 
+									onBlur={() => this.validarData('erroNascimentoConjuge', this.state.nascimentoConjuge)} erro={this.state.erroNascimentoConjuge} />
 									
 						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[7] = input } nome="nascimentoFilhoInvalido" mascara={"99/99/9999"}
 									valor={this.state.nascimentoFilhoInvalido} tipo="data" label={"Possui filho inválido? Data de nascimento"} 
