@@ -127,7 +127,7 @@ class Resultado extends Component {
 						<br className="br-on-mobile" />
 						<br className="br-on-mobile" />
 
-						<Botao titulo="Clique aqui para fazer sua Adesão!" clicar={this.aderir} tipo={"primary"} usaLoading={true} />
+						<Botao titulo="Clique aqui para fazer sua adesão!" clicar={this.aderir} tipo={"primary"} usaLoading={true} />
 					</Col>
 				</Row>
             </div>

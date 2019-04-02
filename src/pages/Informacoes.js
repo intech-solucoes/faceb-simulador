@@ -40,7 +40,7 @@ class Informacoes extends Component {
 	
 			await this.limparErros();
 			for(var i = 0; i < this.listaCampos.length; i++) {
-				var campo = this.listaCampos[i];
+                var campo = this.listaCampos[i];
 	
 				await campo.validar();
 	
@@ -55,24 +55,42 @@ class Informacoes extends Component {
 				await this.setState({ erroNascimentoFilhoInvalido: false });	
 	
 			if(this.state.nascimentoFilhoMaisNovo.length <= 0)
-				await this.setState({ erroNascimentoFilhoMaisNovo: false });	
+                await this.setState({ erroNascimentoFilhoMaisNovo: false });
+                
+            if(this.state.possuiFilhoInvalido === "N") {
+                await this.setState({ 
+                    nascimentoFilhoInvalido: null, 
+                    sexoFilhoInvalido: null
+                });
+            }
+                
+            if(this.state.possuiFilhos === "N") {
+                await this.setState({ 
+                    nascimentoFilhoMaisNovo: null, 
+                    sexoFilhoMaisNovo: null
+                });
+            }
 	
 			var errosData = this.state.erroDataNascimento || this.state.erroNascimentoConjuge || this.state.erroNascimentoFilhoInvalido 
 						|| this.state.erroNascimentoFilhoMaisNovo;
 	
 			var contribBasica =  this.converteStringFloat(this.state.remuneracaoInicial) * (this.state.percentualContribuicao / 100);
 			var contribFacultativa =  this.converteStringFloat(this.state.contribuicaoFacultativa);
-			var aporte = this.state.aporte === "" ? 0 : this.converteStringFloat(this.state.aporte);
+            var aporteInicial = this.state.aporte === "" ? 0 : this.converteStringFloat(this.state.aporte);
 			var taxaJuros = this.converteStringFloat(this.state.taxaJuros);
-			
+            
+            var sexo = this.state.sexo === "" ? "M" : this.state.sexo;
+
 			var nascimentoConjuge = this.state.nascimentoConjuge === "" ? null : this.state.nascimentoConjuge;
-			var nascimentoFilhoInvalido = this.state.nascimentoFilhoInvalido === "" ? null : this.state.nascimentoFilhoInvalido;
-			var nascimentoFilhoMaisNovo = this.state.nascimentoFilhoMaisNovo === "" ? null : this.state.nascimentoFilhoMaisNovo;
+            var nascimentoFilhoInvalido = this.state.nascimentoFilhoInvalido === "" ? null : this.state.nascimentoFilhoInvalido;
+            var sexoFilhoInvalido = this.state.sexoFilhoInvalido === "" ? "M" : this.state.sexoFilhoInvalido;
+            var nascimentoFilhoMaisNovo = this.state.nascimentoFilhoMaisNovo === "" ? null : this.state.nascimentoFilhoMaisNovo;
+            var sexoFilhoMaisNovo = this.state.sexoFilhoMaisNovo === "" ? "M" : this.state.sexoFilhoMaisNovo;
 
 			if(this.erros.length === 0 && !errosData) {
-				var { data: resultadoSimulacao } = await service.SimularNaoParticipante(contribBasica, contribFacultativa, aporte,
-					this.state.idadeAposentadoria, this.state.percentualSaque, this.state.dataNascimento, nascimentoConjuge, 
-					nascimentoFilhoInvalido, nascimentoFilhoMaisNovo, taxaJuros);
+				var { data: resultadoSimulacao } = await service.SimularNaoParticipante(contribBasica, contribFacultativa, aporteInicial,
+					this.state.idadeAposentadoria, this.state.percentualSaque, this.state.dataNascimento, sexo, nascimentoConjuge, 
+					nascimentoFilhoInvalido, sexoFilhoInvalido, nascimentoFilhoMaisNovo, sexoFilhoMaisNovo, taxaJuros);
 	
 				await this.setState({
 					valorFuturo: resultadoSimulacao.valorFuturo,
@@ -179,9 +197,13 @@ class Informacoes extends Component {
 						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[1] = input } tipo="data" nome="dataNascimento" 
 									valor={this.state.dataNascimento} label={"Digite sua data de nascimento"} mascara={"99/99/9999"} obrigatorio 
 									onBlur={() => this.validarData('erroDataNascimento', this.state.dataNascimento)} erro={this.state.erroDataNascimento} />
+                            
+                        <Combo contexto={this} opcoes={[{ valor: "M", titulo: "MASCULINO"} , { valor: "F", titulo: "FEMININO" }]}
+                                label={"Sexo"} 
+                                nome="sexo" valor={this.state.sexo} obrigatorio />
 
 						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[2] = input } tipo="text" nome="remuneracaoInicial" className="money"
-									valor={this.state.remuneracaoInicial} label={"Digite sua Remuneração Inicial"} max={10} obrigatorio onBlur={this.onBlurCampoMonetario} />
+									valor={this.state.remuneracaoInicial} label={"Digite seu salário bruto"} max={10} obrigatorio onBlur={this.onBlurCampoMonetario} />
 
 						<Combo contexto={this} ref={ (input) => this.listaCampos[3] = input } nome="percentualContribuicao" valor={this.state.percentualContribuicao}
 							   label={"Escolha o percentual de contribuição entre 5% e 10%"} labelSecundaria={"(a patrocinadora também contribuirá com o mesmo % para você!)"} 
@@ -193,37 +215,63 @@ class Informacoes extends Component {
 
 						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[5] = input } tipo="text" nome="aporte" 
 									valor={this.state.aporte} className="money" max={10} label={"Deseja realizar um aporte inicial?"} />
-						<br />
 
-						<h4>Composição Familiar</h4>
+						<h4 className={"mt-5"}>Composição Familiar</h4>
 
 						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[6] = input } nome="nascimentoConjuge" mascara={"99/99/9999"}
 									valor={this.state.nascimentoConjuge} tipo="data" label={"Data de nascimento do cônjuge ou companheiro"} 
 									onBlur={() => this.validarData('erroNascimentoConjuge', this.state.nascimentoConjuge)} erro={this.state.erroNascimentoConjuge} />
-									
-						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[7] = input } nome="nascimentoFilhoInvalido" mascara={"99/99/9999"}
-									valor={this.state.nascimentoFilhoInvalido} tipo="data" label={"Possui filho inválido? Data de nascimento"} 
-									onBlur={() => this.validarData('erroNascimentoFilhoInvalido', this.state.nascimentoFilhoInvalido)} erro={this.state.erroNascimentoFilhoInvalido} />
 
-						<CampoTexto contexto={this} ref={ (input) => this.listaCampos[8] = input } nome="nascimentoFilhoMaisNovo" mascara={"99/99/9999"}
-									valor={this.state.nascimentoFilhoMaisNovo} tipo="data" label={"Data de nascimento do filho mais novo"} 
-									onBlur={() => this.validarData('erroNascimentoFilhoMaisNovo', this.state.nascimentoFilhoMaisNovo)} erro={this.state.erroNascimentoFilhoMaisNovo} />														
-						<br />
+                        <div className={"mt-5"}>
+                            <Combo contexto={this} opcoes={[{ valor: "N", titulo: "NÃO"} , { valor: "S", titulo: "SIM" }]}
+                                label={"Possui filho inválido (portador de necessidades especiais)?"} 
+                                nome="possuiFilhoInvalido" valor={this.state.possuiFilhoInvalido} obrigatorio />
+                        </div>
 
-						<h3>Estamos quase lá!</h3>
+                        {this.state.possuiFilhoInvalido && this.state.possuiFilhoInvalido === "S" &&
+                            <div>
+                                <CampoTexto contexto={this} nome="nascimentoFilhoInvalido" mascara={"99/99/9999"}
+                                            valor={this.state.nascimentoFilhoInvalido} tipo="data" label={"Data de nascimento do filho inválido"} 
+                                            onBlur={() => this.validarData('erroNascimentoFilhoInvalido', this.state.nascimentoFilhoInvalido)} erro={this.state.erroNascimentoFilhoInvalido} />
 
-						<Combo contexto={this} ref={ (input) => this.listaCampos[9] = input } label={"Com quantos anos você pretende se aposentar?"} 
+                                <Combo contexto={this} opcoes={[{ valor: "M", titulo: "MASCULINO"} , { valor: "F", titulo: "FEMININO" }]}
+                                        label={"Sexo do filho inválido"} 
+                                        nome="sexoFilhoInvalido" valor={this.state.sexoFilhoInvalido} obrigatorio />
+                            </div>
+                        }
+                        
+                        <div className={"mt-5"}>
+                            <Combo contexto={this} opcoes={[{ valor: "N", titulo: "NÃO"} , { valor: "S", titulo: "SIM" }]}
+                                label={"Possui filhos?"} 
+                                nome="possuiFilhos" valor={this.state.possuiFilhos} obrigatorio />
+                        </div>
+                        
+                        {this.state.possuiFilhos && this.state.possuiFilhos === "S" &&
+                            <div>
+                                <CampoTexto contexto={this} nome="nascimentoFilhoMaisNovo" mascara={"99/99/9999"}
+                                            valor={this.state.nascimentoFilhoMaisNovo} tipo="data" label={"Data de nascimento do filho mais novo"} 
+                                            onBlur={() => this.validarData('erroNascimentoFilhoMaisNovo', this.state.nascimentoFilhoMaisNovo)} erro={this.state.erroNascimentoFilhoMaisNovo} />
+
+                                <Combo contexto={this} opcoes={[{ valor: "M", titulo: "MASCULINO"} , { valor: "F", titulo: "FEMININO" }]}
+                                        label={"Sexo do filho mais novo"}
+                                        nome="sexoFilhoMaisNovo" valor={this.state.sexoFilhoMaisNovo} obrigatorio />
+                            </div>
+                        }
+
+						<h3 className={"mt-5"}>Estamos quase lá!</h3>
+
+						<Combo contexto={this} ref={ (input) => this.listaCampos[7] = input } label={"Com quantos anos você pretende se aposentar?"} 
 							   nome="idadeAposentadoria" valor={this.state.idadeAposentadoria} obrigatorio
 							   min={this.calcularIdadeMinima()} max={70} incremento={1} padrao={48} sufixo={" anos"} />
 
-						<Combo contexto={this} ref={ (input) => this.listaCampos[10] = input } 
+						<Combo contexto={this} ref={ (input) => this.listaCampos[8] = input } 
 							   label={"Você deseja sacar à vista um percentual do seu saldo de contas na concessão do benefício?"} 
 							   nome="percentualSaque" valor={this.state.percentualSaque} obrigatorio
 							   min={1} max={25} incremento={1} textoVazio={"NÃO"} prefixo={"SIM - "} sufixo={"%"} />
 
-						<Combo contexto={this} ref={ (input) => this.listaCampos[11] = input } label={"Taxa de juros para simulação"} 
+						<Combo contexto={this} opcoes={[ "4,00", "4,23", "4,50", "5,00", "5,50" ]}
 							   nome="taxaJuros" valor={this.state.taxaJuros} obrigatorio
-							   min={4} max={5.5} incremento={0.5} padrao={4} sufixo={"%"} decimais />
+							   padrao={"4,23"} sufixo={"%"} decimais />
 
 						<div className="col-lg-5 col-md-5 col-sm-12 col-xs-12">
 							{this.erros.length > 0 &&

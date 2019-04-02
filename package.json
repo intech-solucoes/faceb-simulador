@@ -1,11 +1,11 @@
 {
   "name": "faceb-simulador",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "homepage": ".",
   "dependencies": {
     "@babel/core": "7.1.0",
-    "@intechprev/advanced-service": "^0.0.2",
+    "@intechprev/advanced-service": "^0.0.12",
     "@intechprev/react-lib": "^0.0.4",
     "@svgr/webpack": "2.4.1",
     "axios": "^0.18.0",

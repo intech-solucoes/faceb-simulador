@@ -12,7 +12,8 @@ export default class Combo extends Component {
 
 	static defaultProps = {
 		padrao: "",
-		incremento: 1
+        incremento: 1,
+        valor: ""
 	}
 
 	async componentDidMount() {
@@ -46,42 +47,46 @@ export default class Combo extends Component {
 	}
 
     render() {
-		var opcoes = [];
-		for(var i = this.props.min; i <= this.props.max; i = parseFloat((i + this.props.incremento).toFixed(2)))
-		{
-			if(this.props.decimais)
-				opcoes.push(i.toFixed(2));
-			else
-				opcoes.push(i);
-		}
+        var opcoes = [];
+        if(this.props.opcoes) {
+            opcoes = this.props.opcoes;
+        } else {
+            for(var i = this.props.min; i <= this.props.max; i = parseFloat((i + this.props.incremento).toFixed(2)))
+            {
+                if(this.props.decimais)
+                    opcoes.push(i.toFixed(2));
+                else
+                    opcoes.push(i);
+            }
+        }
 
         return (
-			<div className={"col-lg-5 col-md-5 col-xs-12 col-sm-12"}>
-				<label htmlFor={this.props.nome}>
-					<b>{this.props.label}</b>
-					<div className="text-secondary">{this.props.labelSecundaria}</div>
-				</label>
+            <div className={"col-lg-5 col-md-5 col-xs-12 col-sm-12"}>
+                <label htmlFor={this.props.nome}>
+                    <b>{this.props.label}</b>
+                    <div className="text-secondary">{this.props.labelSecundaria}</div>
+                </label>
 
-				<select id={this.props.nome} name={this.props.nome} className="form-control" onChange={this.onChange} 
-						value={this.props.valor} disabled={this.props.desabilitado}>
+                <select id={this.props.nome} name={this.props.nome} className="form-control" onChange={this.onChange} 
+                        value={this.props.valor} disabled={this.props.desabilitado}>
 
-					{this.props.textoVazio &&
-						<option value="">{this.props.textoVazio}</option>
-					}
+                    {this.props.textoVazio &&
+                        <option value="">{this.props.textoVazio}</option>
+                    }
 
-					{
-						opcoes.map((opcao, index) => {
-							opcao = opcao.toString();
-							opcao = opcao.replace('.', ',');
-							return (
-								<option key={index} value={opcao}>{this.props.prefixo}{opcao}{this.props.sufixo}</option>
-							);
-						})
-					}
-					
-				</select>
-			</div>
-        )
+                    {opcoes.map((opcao, index) => {
+                        if(typeof(opcao) === "string" || typeof(opcao) === "number") {
+                            opcao = opcao.toString();
+                            opcao = opcao.replace('.', ',');
+                            return <option key={index} value={opcao}>{this.props.prefixo}{opcao}{this.props.sufixo}</option>;
+                        } else {
+                            return <option key={index} value={opcao.valor}>{this.props.prefixo}{opcao.titulo}{this.props.sufixo}</option>;
+                        }
+                    })}
+                    
+                </select>
+            </div>
+        );
     }
 
 }

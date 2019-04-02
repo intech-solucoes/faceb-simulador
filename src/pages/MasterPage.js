@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Informacoes, Resultado } from './';
+import packageJson from '../../package.json';
 
 class MasterPage extends Component {
     constructor(props) { 
@@ -10,14 +11,17 @@ class MasterPage extends Component {
 
             // States página Informacoes
 			nome: "",
-			dataNascimento: "",
+            dataNascimento: "",
+            sexo: "M",
 			remuneracaoInicial: "",
 			percentualContribuicao: "",
             contribuicaoFacultativa: "0,00",
             aporte: "0,00",
 			nascimentoConjuge: "",
 			nascimentoFilhoInvalido: "",
+			sexoFilhoInvalido: "",
 			nascimentoFilhoMaisNovo: "",
+			sexoFilhoMaisNovo: "",
 			idadeAposentadoria: "",
 			percentualSaque: "",
             taxaJuros: "",
@@ -78,13 +82,17 @@ class MasterPage extends Component {
             <div className="container">
                 <div align="center">
                     <img className="logo figure-img" src="imagens/logo.png" alt="" />
-                    <h2>Bem vindo ao</h2>
+                    <h2>Bem-vindo ao</h2>
                     <h2>Simulador de Benefício do Plano CEBPREV</h2>
                 </div>
                 <br />
 
                 <div align="center">
                     {this.renderConteudoPagina()}
+                </div>
+
+                <div align="center" className={"mt-5"}>
+                    Simulador Faceb v{packageJson.version}
                 </div>
             </div>
     	);
