@@ -16,10 +16,6 @@ class Resultado extends Component {
 		await this.setState(state);
 	}
 
-	aderir = async () => { 
-		window.open('http://www.faceb.com.br/', '_blank');
-	}
-
 	render() {
 		return (
             <div hidden={this.props.hidden}>
@@ -126,8 +122,6 @@ class Resultado extends Component {
 						<Botao titulo="Voltar" clicar={() => this.props.setPaginaAtiva('informacoes', this.state)} tipo={"secondary"} usaLoading={true} />&nbsp;
 						<br className="br-on-mobile" />
 						<br className="br-on-mobile" />
-
-						<Botao titulo="Clique aqui para fazer sua adesão!" clicar={this.aderir} tipo={"primary"} usaLoading={true} />
 					</Col>
 				</Row>
             </div>
