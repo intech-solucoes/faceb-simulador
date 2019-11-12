@@ -270,7 +270,7 @@ class Informacoes extends Component {
 							   min={1} max={25} incremento={1} textoVazio={"NÃO"} prefixo={"SIM - "} sufixo={"%"} />
 
 						<Combo contexto={this} opcoes={[ "4,00", "4,23", "4,50", "5,00", "5,50" ]}
-							   nome="taxaJuros" valor={this.state.taxaJuros} obrigatorio
+							   nome="taxaJuros" valor={this.state.taxaJuros} obrigatorio label={"Taxa de Juros"}
 							   padrao={"4,23"} sufixo={"%"} decimais />
 
 						<div className="col-lg-5 col-md-5 col-sm-12 col-xs-12">
